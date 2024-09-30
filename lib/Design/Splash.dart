@@ -1,46 +1,53 @@
+import 'package:ecommeurcefb/Design/onboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import 'onboard.dart';
-
-class Screen1 extends StatefulWidget {
-
-  const Screen1({super.key});
+class Splash extends StatefulWidget {
+  const Splash({super.key});
 
   @override
-  State<Screen1> createState() => _Screen1State();
+  State<Splash> createState() => _SplashState();
 }
 
-class _Screen1State extends State<Screen1> {
+class _SplashState extends State<Splash> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 4),(){
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=>Screen2()));
-    }
-    );
     super.initState();
+    _navigateotherscreen();
   }
+
+  _navigateotherscreen() async {
+    await Future.delayed(Duration(seconds: 3), () {});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Screen2()));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 290),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/a.png",height: 100,width: 100,),
-                    Text(
-                      'Stylish',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFFF73658),
-                        fontSize: 40,
-                        fontFamily: 'Libre Caslon Text',
-                        fontWeight: FontWeight.w700,
-                        height: 0.01,
-                      ),
-                    )
-                  ],
-                ),
+                Image.asset("assets/a.png",height: 100,width: 100,),
+                Text(
+                  'Stylish',
+                  style: GoogleFonts.libreCaslonText(
+                    textStyle: TextStyle(
+                      color: Color(0xFFF73658),
+                      fontSize: 40.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                )
               ],
-            )      );
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

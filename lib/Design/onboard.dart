@@ -1,6 +1,8 @@
 import 'package:ecommeurcefb/Design/Home.dart';
+import 'package:ecommeurcefb/Design/Login.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class Screen2 extends StatefulWidget {
@@ -33,7 +35,7 @@ class _Screen2State extends State<Screen2> {
 
     void _onIntroEnd(context) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const Home()),
+        MaterialPageRoute(builder: (_) => const Login()),
       );
     }
 
@@ -127,8 +129,7 @@ class _Screen2State extends State<Screen2> {
     color: Color(0xFFF73658),
     fontSize: 18,
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w600,
-    height: 0,
+    fontWeight: FontWeight.w600
     )),
         curve: Curves.fastLinearToSlowEaseIn,
         controlsMargin: const EdgeInsets.all(16),
