@@ -1,4 +1,4 @@
-import 'package:ecommeurcefb/Design/Home.dart';
+import 'package:ecommeurcefb/Design/Start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +13,7 @@ class Forgot extends StatefulWidget {
 class _ForgotState extends State<Forgot> {
   TextEditingController Email = TextEditingController();
   final formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +51,7 @@ class _ForgotState extends State<Forgot> {
               ),
             ),
             Text(
-              ' We will send you a message to set or reset your new password',
+              ' We will send you a message to set or reset \n your new password',
               style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                   color: Color(0xFF575757),
@@ -59,9 +60,10 @@ class _ForgotState extends State<Forgot> {
                 ),
               ),
             ),
+            SizedBox(height:60.h,),
             GestureDetector(onTap: (){
               if(formkey.currentState!.validate()){
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>Home()));
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>Start()));
               }
             },
               child: Container(

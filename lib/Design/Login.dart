@@ -14,13 +14,19 @@ class Login extends StatefulWidget {
 
   @override
   State<Login> createState() => _LoginState();
+
 }
 
 class _LoginState extends State<Login> {
+  @override
+  void initState() {
+    visible3= false;
+    super.initState();
+  }
   TextEditingController password = TextEditingController();
   TextEditingController Email = TextEditingController();
   final formkey = GlobalKey<FormState>();
-
+   bool visible3= false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +50,7 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: TextFormField(
+
                     controller: Email,
                     validator: (value) {
                       if (value!.isEmpty ||
@@ -63,6 +70,7 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: TextFormField(
+                    obscureText: !visible3,
                     controller: password,
                     validator: (value) {
                       if (value == null || password.text.length <6) {
@@ -75,7 +83,10 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(10.r)),
                       prefixIcon: Icon(Icons.lock),
                       labelText: "password",
-                      suffix: Icon(Icons.remove_red_eye_outlined),
+                      suffix: GestureDetector(onTap: (){setState(() {
+                        visible3=!visible3;
+                      });},
+                          child: Icon(visible3?Icons.remove_red_eye_outlined:Icons.visibility_off)),
                       fillColor: Color(0xFFFA8A8A9),
                     ),
                   ),
@@ -159,7 +170,8 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         width: 20.w,
                       ),
-                      GestureDetector(onTap: (){Navigator.push(context,MaterialPageRoute(builder: (_)=>Phone()));},
+                      GestureDetector(onTap: (){Navigator.push(context,MaterialPageRoute(builder: (_)=>
+                          Phone()));},
                         child: Container(
                           height: 50.h,
                           width: 50.h,

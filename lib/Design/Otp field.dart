@@ -1,4 +1,4 @@
-import 'package:ecommeurcefb/Design/Home.dart';
+import 'package:ecommeurcefb/Design/Start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +18,7 @@ class _OtpState extends State<Otp> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 80, top: 30),
+            padding: const EdgeInsets.only(right: 40, top: 50),
             child: Text(
               'otp Field',
               style: GoogleFonts.montserrat(
@@ -28,7 +28,7 @@ class _OtpState extends State<Otp> {
               ),
             ),
           ),
-
+SizedBox(height: 50.h,),
           OtpTextField(
             numberOfFields: 5,
             borderColor: Color(0xFF512DA8),
@@ -51,10 +51,11 @@ class _OtpState extends State<Otp> {
               );
             }, // end onSubmit
           ),
-           GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Home()));},
+           Padding(
+             padding: const EdgeInsets.only(top: 60),
              child: Container(
-              width: 104,
-              height: 38,
+              width: 104.w,
+              height: 38.h,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: ShapeDecoration(
                 color: Color(0xFF8204FF),

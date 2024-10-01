@@ -20,7 +20,7 @@ class _PhoneState extends State<Phone> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 80, top: 30),
+              padding: const EdgeInsets.only(right: 80, top: 60),
               child: Text(
                 'Phone',
                 style: GoogleFonts.montserrat(
@@ -29,23 +29,22 @@ class _PhoneState extends State<Phone> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-            ),
+            ),SizedBox(height: 70.h,),
             Padding(
               padding: const EdgeInsets.all(20),
               child: TextFormField(
                 controller: phone,
                 validator: (value) {
-                  if (value == null || phone.text.length <6) {
-                    return 'Enter 6 Digits';
+                  if (value == null || phone.text.length <10) {
+                    return 'Enter 10 Digits';
                   }
                   return null;
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r)),
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: Icon(Icons.phone),
                   labelText: "PhoneNumber",
-                  suffix: Icon(Icons.remove_red_eye_outlined),
                   fillColor: Color(0xFFFA8A8A9),
                 ),
               ),

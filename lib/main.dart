@@ -1,7 +1,9 @@
+import 'package:ecommeurcefb/Design/Start.dart';
 import 'package:ecommeurcefb/Design/onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'Design/Home.dart';
 import 'Design/Splash.dart';
 
 void main() {
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Splash(),
+        home: Home(),
       ),
     );
   }
