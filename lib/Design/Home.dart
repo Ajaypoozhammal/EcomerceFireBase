@@ -1,6 +1,10 @@
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,8 +14,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    PageController controller = PageController();
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.sort),
@@ -198,24 +205,237 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
+            CarouselSlider.builder(
+              itemCount: 15,
+              itemBuilder:
+                  (BuildContext context, int itemIndex, int pageViewIndex) =>
+                      Container(
+                child: Image.asset('assets/g.png'),
+              ),
+              options: CarouselOptions(
+                height: 200,
+                aspectRatio: 16 / 9,
+                viewportFraction: 0.8,
+                initialPage: currentIndex,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: false
+                ,
+                onPageChanged: (index, c) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+                autoPlayInterval: Duration(seconds: 1),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enlargeCenterPage: true,
+                enlargeFactor: 0.3,
+                scrollDirection: Axis.horizontal,
+              ),
+            ),
+            AnimatedSmoothIndicator(
+              activeIndex: currentIndex,
+              count: 3,
+                effect:  WormEffect(
+                    spacing:  8.0,
+                    radius:  50,
+                    dotWidth:  10.0,
+                    dotHeight:  10.0,
+                    paintStyle:  PaintingStyle.stroke,
+                    strokeWidth:  1.5,
+                    dotColor:  Colors.grey,
+                    activeDotColor:  Colors.indigo
+                ),
+            ),
+            SizedBox(
+              height: 15.h,
+            ),
             Container(
-              child: Banner(
-                location: BannerLocation.bottomStart,
-                color: Colors.red,
-                message: '',
-                child: Container(
-                  color: Colors.green[100],
-                  height: 100,
-                  // child: Padding(
-                  //   padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                    child: Column(
-                      children: <Widget>[Image.asset("assets/d.png")],
+              width: 343.w,
+              height: 70.h,
+              decoration: ShapeDecoration(
+                color: Color(0xFF4392F8),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 150,),
+                      child: Text(
+                        'Deal of the Day',
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 180),
+                      child: Container(
+                        width: 89.w,
+                        height: 28.h,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 6),
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(width: 1, color: Colors.white),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        child: Center(
+                          child: Row(
+                            children: [
+                              Text(
+                                'View all',
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_outlined,
+                                color: Colors.white,
+                                size: 15,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.alarm,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            '22h 55m 20s remaining ',
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            SizedBox(
+              height: 210.h,
+              width: double.infinity,
+              child: ListView.separated(
+                itemCount: 20,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, position) {
+                  return Container(
+                    height: 88.h,
+                    width: 150.w,
+                    decoration: ShapeDecoration(shape: OvalBorder()),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          "assets/h.png",
+                          fit: BoxFit.cover,
+                        ),
+                        Text(
+                          'HRX by Hrithik Roshan',
+                          style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          'Neque porro quisquam est quidolorem ipsum quia',
+                          style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 100),
+                          child: Text(
+                            '₹2499',
+                            style: GoogleFonts.montserrat(
+                              color: Colors.black,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              '₹4999',
+                              style: GoogleFonts.montserrat(
+                                decoration: TextDecoration.lineThrough,
+                                color: Color(0xFF808488),
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),SizedBox(width: 10.w,),
+                            Text(
+                              '50%Off',
+                              style: GoogleFonts.montserrat(
+                                color: Color(0xFFFE735C),
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            RatingBar(
+                              filledIcon: Icons.star,size:10,
+                              emptyIcon: Icons.star_border,
+                              onRatingChanged: (value) => debugPrint('$value'),
+                              initialRating: 3,
+                              maxRating: 5,
+                            ),SizedBox(width: 15.w,),
+                            Text(
+                              '344567',
+                              style: GoogleFonts.montserrat(
+                                color: Color(0xFFA4A9B3),
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w400,
 
-            // )
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, position) {
+                  return SizedBox(
+                    width: 15.w,
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

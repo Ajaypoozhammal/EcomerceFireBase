@@ -41,6 +41,9 @@ dependencies:
   introduction_screen: ^3.1.14
   flutter_otp_text_field: ^1.2.0
   google_sign_in: ^6.2.1
+  carousel_slider: ^5.0.0
+  smooth_page_indicator: ^1.2.0+3
+  custom_rating_bar: ^3.0.0
 
 dev_dependencies:
   flutter_test:
