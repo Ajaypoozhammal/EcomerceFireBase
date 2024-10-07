@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:ecommeurcefb/Design/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -347,85 +348,87 @@ class _HomeState extends State<Home> {
                 itemCount: 20,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, position) {
-                  return Container(
-                    height: 88.h,
-                    width: 150.w,
-                    decoration: ShapeDecoration(shape: OvalBorder()),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/h.png",
-                          fit: BoxFit.cover,
-                        ),
-                        Text(
-                          'HRX by Hrithik Roshan',
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
+                  return  GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Cart()));},
+                    child: Container(
+                      height: 88.h,
+                      width: 150.w,
+                      decoration: ShapeDecoration(shape: OvalBorder()),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/h.png",
+                            fit: BoxFit.cover,
                           ),
-                        ),
-                        Text(
-                          'Neque porro quisquam est quidolorem ipsum quia',
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 100),
-                          child: Text(
-                            '₹2499',
+                          Text(
+                            'HRX by Hrithik Roshan',
                             style: GoogleFonts.montserrat(
                               color: Colors.black,
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              '₹4999',
+                          Text(
+                            'Neque porro quisquam est quidolorem ipsum quia',
+                            style: GoogleFonts.montserrat(
+                              color: Colors.black,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 100),
+                            child: Text(
+                              '₹2499',
                               style: GoogleFonts.montserrat(
-                                decoration: TextDecoration.lineThrough,
-                                color: Color(0xFF808488),
+                                color: Colors.black,
                                 fontSize: 12.sp,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),SizedBox(width: 10.w,),
-                            Text(
-                              '50%Off',
-                              style: GoogleFonts.montserrat(
-                                color: Color(0xFFFE735C),
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            RatingBar(
-                              filledIcon: Icons.star,size:10,
-                              emptyIcon: Icons.star_border,
-                              onRatingChanged: (value) => debugPrint('$value'),
-                              initialRating: 3,
-                              maxRating: 5,
-                            ),SizedBox(width: 15.w,),
-                            Text(
-                              '344567',
-                              style: GoogleFonts.montserrat(
-                                color: Color(0xFFA4A9B3),
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400,
-
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ],
-                        )
-                      ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '₹4999',
+                                style: GoogleFonts.montserrat(
+                                  decoration: TextDecoration.lineThrough,
+                                  color: Color(0xFF808488),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),SizedBox(width: 10.w,),
+                              Text(
+                                '50%Off',
+                                style: GoogleFonts.montserrat(
+                                  color: Color(0xFFFE735C),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              RatingBar(
+                                filledIcon: Icons.star,size:10,
+                                emptyIcon: Icons.star_border,
+                                onRatingChanged: (value) => debugPrint('$value'),
+                                initialRating: 3,
+                                maxRating: 5,
+                              ),SizedBox(width: 15.w,),
+                              Text(
+                                '344567',
+                                style: GoogleFonts.montserrat(
+                                  color: Color(0xFFA4A9B3),
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400,
+
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },
