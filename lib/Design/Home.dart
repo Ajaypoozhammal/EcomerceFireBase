@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:ecommeurcefb/Design/Profile.dart';
 import 'package:ecommeurcefb/Design/cart.dart';
+import 'package:ecommeurcefb/Design/productdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -48,8 +50,15 @@ class _HomeState extends State<Home> {
           ),
         ),
         actions: [
-          CircleAvatar(
-            backgroundImage: AssetImage("assets/e.png"),
+          GestureDetector(
+            onTap: () {
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: CircleAvatar(
+                backgroundImage: AssetImage("assets/e.png"),
+              ),
+            ),
           ),
         ],
       ),
@@ -86,7 +95,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 10, top: 20),
+              padding: const EdgeInsets.only(left: 15, ),
               child: Row(
                 children: [
                   Text(
@@ -103,7 +112,7 @@ class _HomeState extends State<Home> {
                     width: 60.w,
                   ),
                   Container(
-                    width: 71,
+                    width: 65,
                     height: 29,
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -181,7 +190,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20,left: 10),
               child: Container(
                 width: double.infinity,
                 height: 75.h,
@@ -220,8 +229,7 @@ class _HomeState extends State<Home> {
                 initialPage: currentIndex,
                 enableInfiniteScroll: true,
                 reverse: false,
-                autoPlay: false
-                ,
+                autoPlay: false,
                 onPageChanged: (index, c) {
                   setState(() {
                     currentIndex = index;
@@ -238,16 +246,15 @@ class _HomeState extends State<Home> {
             AnimatedSmoothIndicator(
               activeIndex: currentIndex,
               count: 3,
-                effect:  WormEffect(
-                    spacing:  8.0,
-                    radius:  50,
-                    dotWidth:  10.0,
-                    dotHeight:  10.0,
-                    paintStyle:  PaintingStyle.stroke,
-                    strokeWidth:  1.5,
-                    dotColor:  Colors.grey,
-                    activeDotColor:  Colors.indigo
-                ),
+              effect: WormEffect(
+                  spacing: 8.0,
+                  radius: 50,
+                  dotWidth: 10.0,
+                  dotHeight: 10.0,
+                  paintStyle: PaintingStyle.stroke,
+                  strokeWidth: 1.5,
+                  dotColor: Colors.grey,
+                  activeDotColor: Colors.indigo),
             ),
             SizedBox(
               height: 15.h,
@@ -265,7 +272,9 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 150,),
+                      padding: const EdgeInsets.only(
+                        right: 150,top: 5
+                      ),
                       child: Text(
                         'Deal of the Day',
                         style: GoogleFonts.montserrat(
@@ -320,6 +329,7 @@ class _HomeState extends State<Home> {
                           Icon(
                             Icons.alarm,
                             color: Colors.white,
+                            size: 10,
                           ),
                           Text(
                             '22h 55m 20s remaining ',
@@ -348,7 +358,11 @@ class _HomeState extends State<Home> {
                 itemCount: 20,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, position) {
-                  return  GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Cart()));},
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => Productdetails()));
+                    },
                     child: Container(
                       height: 88.h,
                       width: 150.w,
@@ -367,16 +381,19 @@ class _HomeState extends State<Home> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Text(
-                            'Neque porro quisquam est quidolorem ipsum quia',
-                            style: GoogleFonts.montserrat(
-                              color: Colors.black,
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w400,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              'Neque porro quisquam est quidolorem ipsum quia',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(right: 100),
+                            padding: const EdgeInsets.only(right: 80,top: 3),
                             child: Text(
                               '₹2499',
                               style: GoogleFonts.montserrat(
@@ -386,46 +403,59 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                '₹4999',
-                                style: GoogleFonts.montserrat(
-                                  decoration: TextDecoration.lineThrough,
-                                  color: Color(0xFF808488),
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w300,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10,top: 2),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '₹4999',
+                                  style: GoogleFonts.montserrat(
+                                    decoration: TextDecoration.lineThrough,
+                                    color: Color(0xFF808488),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w300,
+                                  ),
                                 ),
-                              ),SizedBox(width: 10.w,),
-                              Text(
-                                '50%Off',
-                                style: GoogleFonts.montserrat(
-                                  color: Color(0xFFFE735C),
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w400,
+                                SizedBox(
+                                  width: 10.w,
                                 ),
+                                Text(
+                                  '50%Off',
+                                  style: GoogleFonts.montserrat(
+                                    color: Color(0xFFFE735C),
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                            ],
+                              ],
+                            ),
                           ),
-                          Row(
-                            children: [
-                              RatingBar(
-                                filledIcon: Icons.star,size:10,
-                                emptyIcon: Icons.star_border,
-                                onRatingChanged: (value) => debugPrint('$value'),
-                                initialRating: 3,
-                                maxRating: 5,
-                              ),SizedBox(width: 15.w,),
-                              Text(
-                                '344567',
-                                style: GoogleFonts.montserrat(
-                                  color: Color(0xFFA4A9B3),
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w400,
-
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Row(
+                              children: [
+                                RatingBar(
+                                  filledIcon: Icons.star,
+                                  size: 10,
+                                  emptyIcon: Icons.star_border,
+                                  onRatingChanged: (value) =>
+                                      debugPrint('$value'),
+                                  initialRating: 3,
+                                  maxRating: 5,
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: 12.w,
+                                ),
+                                Text(
+                                  '344567',
+                                  style: GoogleFonts.montserrat(
+                                    color: Color(0xFFA4A9B3),
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
                           )
                         ],
                       ),

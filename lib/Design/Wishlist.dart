@@ -1,4 +1,6 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:ecommeurcefb/Design/Profile.dart';
+import 'package:ecommeurcefb/Design/productdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,8 +45,13 @@ class _WishlistState extends State<Wishlist> {
           ),
         ),
         actions: [
-          CircleAvatar(
-            backgroundImage: AssetImage("assets/e.png"),
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: GestureDetector(onTap: (){},
+              child: CircleAvatar(
+                backgroundImage: AssetImage("assets/e.png"),
+              ),
+            ),
           ),
         ],
       ),
@@ -81,7 +88,7 @@ class _WishlistState extends State<Wishlist> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 10, top: 20),
+              padding: const EdgeInsets.only(left: 10, ),
               child: Row(
                 children: [
                   Text(
@@ -174,7 +181,7 @@ class _WishlistState extends State<Wishlist> {
                   ),
                 ],
               ),
-            ),
+            ),SizedBox(height: 10.h,),
       SizedBox(height:500.h,
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -186,7 +193,7 @@ class _WishlistState extends State<Wishlist> {
           padding: EdgeInsets.all(8.0),
           itemCount:38,
           itemBuilder: (context, index) {
-            return GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Cart()));},
+            return GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Productdetails()));},
               child: Container(
                 height: 200.h,
                 width: 150.w,

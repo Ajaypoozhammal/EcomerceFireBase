@@ -5,6 +5,7 @@ import 'package:ecommeurcefb/Design/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'Profile.dart';
 import 'Settings.dart';
 
 class Bottomnavigation extends StatefulWidget {
@@ -15,7 +16,7 @@ class Bottomnavigation extends StatefulWidget {
 }
 
 class _BottomnavigationState extends State<Bottomnavigation> {
-  final Screen = [Home(), Wishlist(), Cart(), Search(), Settings()];
+  final Screen = [Home(), Wishlist(), Cart(), Search(), Profile()];
   int currentindex = 0;
 
   @override
@@ -58,9 +59,9 @@ class _BottomnavigationState extends State<Bottomnavigation> {
                   color: currentindex == 3 ? Colors.red : Colors.black),
               label: 'Search'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings,
+              icon: Icon(Icons.person,
                   color: currentindex == 4 ? Colors.red : Colors.black),
-              label: 'Settings'),
+              label: 'profile'),
         ],
       ),
       body: Screen[currentindex],
