@@ -1,7 +1,10 @@
 import 'package:ecommeurcefb/Design/Otp%20field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../Toast msg.dart';
 
 class Phone extends StatefulWidget {
   const Phone({super.key});
@@ -12,6 +15,7 @@ class Phone extends StatefulWidget {
 
 class _PhoneState extends State<Phone> {
   TextEditingController phone = TextEditingController();
+  FirebaseAuth auth=FirebaseAuth.instance;
   final formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -51,7 +55,21 @@ class _PhoneState extends State<Phone> {
             ),
             GestureDetector(onTap: (){
               if(formkey.currentState!.validate()){
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>Otp()));
+                auth.verifyPhoneNumber(
+                    phoneNumber: "+91${phone.text}",
+                    verificationCompleted: (_) {},
+                    verificationFailed: (e) {
+                      ToastMessage().toastmessage(message: e.toString());
+                    },
+                    codeSent: (String verificationId, int? token) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => Otp(
+                            otp: verificationId,
+                          )));
+                    },
+                    codeAutoRetrievalTimeout: (e) {
+                      ToastMessage().toastmessage(message: e.toString());
+                    });
               }
             },
               child: Container(

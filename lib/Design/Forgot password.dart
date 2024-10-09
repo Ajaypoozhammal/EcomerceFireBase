@@ -1,7 +1,11 @@
 import 'package:ecommeurcefb/Design/Start.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../Toast msg.dart';
+import 'BottomNavigation.dart';
 
 class Forgot extends StatefulWidget {
   const Forgot({super.key});
@@ -12,7 +16,9 @@ class Forgot extends StatefulWidget {
 
 class _ForgotState extends State<Forgot> {
   TextEditingController Email = TextEditingController();
+  FirebaseAuth auth=FirebaseAuth.instance;
   final formkey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +69,15 @@ class _ForgotState extends State<Forgot> {
             SizedBox(height:60.h,),
             GestureDetector(onTap: (){
               if(formkey.currentState!.validate()){
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>Start()));
+                auth.sendPasswordResetEmail(email: Email.text).then((value) {
+                  ToastMessage().toastmessage(message: 'password changed successfully');
+                  Email.clear();
+                  Navigator.pop(context);
+                }).onError((error, stackTrace){
+                  ToastMessage().toastmessage(message: error.toString());
+                  Navigator.of(context).pop(MaterialPageRoute(builder: (_) =>Bottomnavigation()));
+                });
+                ;
               }
             },
               child: Container(

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Profile.dart';
-import 'Settings.dart';
 
 class Bottomnavigation extends StatefulWidget {
   const Bottomnavigation({super.key});

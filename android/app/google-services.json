@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "16364584357",
+    "project_id": "e-commerse-8b469",
+    "storage_bucket": "e-commerse-8b469.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16364584357:android:f06d850d0c46d9bb96fc4c",
+        "android_client_info": {
+          "package_name": "com.example.ecommeurcefb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdsX839RlyqSEH2DGq8J7XOd9ArBj_UM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

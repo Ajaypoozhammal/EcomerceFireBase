@@ -1,13 +1,19 @@
+import 'package:ecommeurcefb/Design/Signup.dart';
 import 'package:ecommeurcefb/Design/Start.dart';
 import 'package:ecommeurcefb/Design/onboard.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Design/BottomNavigation.dart';
 import 'Design/Home.dart';
 import 'Design/Splash.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async{WidgetsFlutterBinding.ensureInitialized();
+await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MyApp());
 }
 
@@ -39,7 +45,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Bottomnavigation()
+        home: Splash()
       ),
     );
   }
