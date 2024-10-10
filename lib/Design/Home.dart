@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:ecommeurcefb/Design/Profile.dart';
 import 'package:ecommeurcefb/Design/cart.dart';
 import 'package:ecommeurcefb/Design/productdetails.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +20,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentIndex = 0;
+  final firestore = FirebaseFirestore.instance.collection("Banner").snapshots();
+  final  firestore2=FirebaseFirestore.instance.collection("deal of the day").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +55,7 @@ class _HomeState extends State<Home> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {
-            },
+            onTap: () {},
             child: Padding(
               padding: const EdgeInsets.only(right: 10),
               child: CircleAvatar(
@@ -95,7 +98,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, ),
+              padding: const EdgeInsets.only(left: 15,),
               child: Row(
                 children: [
                   Text(
@@ -115,7 +118,7 @@ class _HomeState extends State<Home> {
                     width: 65,
                     height: 29,
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -154,7 +157,7 @@ class _HomeState extends State<Home> {
                     width: 71,
                     height: 29,
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -190,7 +193,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20,left: 10),
+              padding: const EdgeInsets.only(top: 20, left: 10),
               child: Container(
                 width: double.infinity,
                 height: 75.h,
@@ -215,33 +218,51 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            CarouselSlider.builder(
-              itemCount: 15,
-              itemBuilder:
-                  (BuildContext context, int itemIndex, int pageViewIndex) =>
-                      Container(
-                child: Image.asset('assets/g.png'),
-              ),
-              options: CarouselOptions(
-                height: 200,
-                aspectRatio: 16 / 9,
-                viewportFraction: 0.8,
-                initialPage: currentIndex,
-                enableInfiniteScroll: true,
-                reverse: false,
-                autoPlay: false,
-                onPageChanged: (index, c) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
-                autoPlayInterval: Duration(seconds: 1),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enlargeCenterPage: true,
-                enlargeFactor: 0.3,
-                scrollDirection: Axis.horizontal,
-              ),
+            StreamBuilder(
+              stream: firestore,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator(),);
+                }
+                if(snapshot.hasError){
+                  return Center(child:Text("Error"));
+                }
+                if(snapshot.hasData){
+                 return CarouselSlider.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder:
+                        (BuildContext context, int itemIndex, int pageViewIndex) =>
+                        Container(
+                          child: Image.network(snapshot.data!.docs[itemIndex]["image"].toString()),
+                        ),
+                    options: CarouselOptions(
+                      height: 200,
+                      aspectRatio: 16 / 9,
+                      viewportFraction: 0.8,
+                      initialPage: currentIndex,
+                      enableInfiniteScroll: true,
+                      reverse: false,
+                      autoPlay: false,
+                      onPageChanged: (index, c) {
+                        setState(() {
+                          currentIndex = index;
+                        });
+                      },
+                      autoPlayInterval: Duration(seconds: 1),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enlargeCenterPage: true,
+                      enlargeFactor: 0.3,
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  );
+                }
+                else{
+                  return SizedBox();
+                }
+              },
+
             ),
             AnimatedSmoothIndicator(
               activeIndex: currentIndex,
@@ -273,7 +294,7 @@ class _HomeState extends State<Home> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(
-                        right: 150,top: 5
+                          right: 150, top: 5
                       ),
                       child: Text(
                         'Deal of the Day',
@@ -354,119 +375,138 @@ class _HomeState extends State<Home> {
             SizedBox(
               height: 210.h,
               width: double.infinity,
-              child: ListView.separated(
-                itemCount: 20,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, position) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (_) => Productdetails()));
-                    },
-                    child: Container(
-                      height: 88.h,
-                      width: 150.w,
-                      decoration: ShapeDecoration(shape: OvalBorder()),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            "assets/h.png",
-                            fit: BoxFit.cover,
-                          ),
-                          Text(
-                            'HRX by Hrithik Roshan',
-                            style: GoogleFonts.montserrat(
-                              color: Colors.black,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              'Neque porro quisquam est quidolorem ipsum quia',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 80,top: 3),
-                            child: Text(
-                              '₹2499',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10,top: 2),
-                            child: Row(
+              child: StreamBuilder(
+                stream: firestore2
+                ,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                  if(!snapshot.hasData){
+                    return Center(child: CircularProgressIndicator(),);
+                  }
+                  if(snapshot.hasError){
+                    return Center(child: Text("Error"),);
+                  }
+                  if(snapshot.hasData){
+                    return  ListView.separated(
+                      itemCount: snapshot.data!.docs.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, position) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (_) =>
+                                Productdetails()));
+                          },
+                          child: Container(
+                            height: 88.h,
+                            width: 150.w,
+                            decoration: ShapeDecoration(shape: OvalBorder()),
+                            child: Column(
                               children: [
+                                Image.network(snapshot.data!.docs[position]["images"][0].toString()
+                                  ,fit: BoxFit.cover,
+                                ),
                                 Text(
-                                  '₹4999',
+                                  snapshot.data!.docs[position]["name"].toString(),
                                   style: GoogleFonts.montserrat(
-                                    decoration: TextDecoration.lineThrough,
-                                    color: Color(0xFF808488),
+                                    color: Colors.black,
                                     fontSize: 12.sp,
-                                    fontWeight: FontWeight.w300,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                Text(
-                                  '50%Off',
-                                  style: GoogleFonts.montserrat(
-                                    color: Color(0xFFFE735C),
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w400,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    snapshot.data!.docs[position]["productDetails"].toString(),
+                                    style: GoogleFonts.montserrat(
+                                      color: Colors.black,
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 80, top: 3),
+                                  child: Text(
+                                    snapshot.data!.docs[position]["offer price"].toString(),
+                                    style: GoogleFonts.montserrat(
+                                      color: Colors.black,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10, top: 2),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        snapshot.data!.docs[position]["orginal price"].toString(),
+                                        style: GoogleFonts.montserrat(
+                                          decoration: TextDecoration.lineThrough,
+                                          color: Color(0xFF808488),
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      Text(
+                                        snapshot.data!.docs[position]["discount"].toString(),
+                                        style: GoogleFonts.montserrat(
+                                          color: Color(0xFFFE735C),
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Row(
+                                    children: [
+                                      RatingBar(
+                                        filledIcon: Icons.star,
+                                        size: 10,
+                                        emptyIcon: Icons.star_border,
+                                        onRatingChanged: (value) =>
+                                            debugPrint('$value'),
+                                        initialRating: 3,
+                                        maxRating: 5,
+                                      ),
+                                      SizedBox(
+                                        width: 12.w,
+                                      ),
+                                      Text(
+                                        snapshot.data!.docs[position]["rating"].toString(),
+                                        style: GoogleFonts.montserrat(
+                                          color: Color(0xFFA4A9B3),
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Row(
-                              children: [
-                                RatingBar(
-                                  filledIcon: Icons.star,
-                                  size: 10,
-                                  emptyIcon: Icons.star_border,
-                                  onRatingChanged: (value) =>
-                                      debugPrint('$value'),
-                                  initialRating: 3,
-                                  maxRating: 5,
-                                ),
-                                SizedBox(
-                                  width: 12.w,
-                                ),
-                                Text(
-                                  '344567',
-                                  style: GoogleFonts.montserrat(
-                                    color: Color(0xFFA4A9B3),
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
+                        );
+                      },
+                      separatorBuilder: (context, position) {
+                        return SizedBox(
+                          width: 15.w,
+                        );
+                      },
+                    );
+                  }
+                  else{
+                    return SizedBox();
+                  }
                 },
-                separatorBuilder: (context, position) {
-                  return SizedBox(
-                    width: 15.w,
-                  );
-                },
+
               ),
             ),
           ],
