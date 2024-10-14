@@ -21,7 +21,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentIndex = 0;
   final firestore = FirebaseFirestore.instance.collection("Banner").snapshots();
-  final  firestore2=FirebaseFirestore.instance.collection("deal of the day").snapshots();
+  final firestore2 =
+      FirebaseFirestore.instance.collection("deal of the day").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,9 @@ class _HomeState extends State<Home> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15,),
+              padding: const EdgeInsets.only(
+                left: 15,
+              ),
               child: Row(
                 children: [
                   Text(
@@ -118,7 +121,7 @@ class _HomeState extends State<Home> {
                     width: 65,
                     height: 29,
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -157,7 +160,7 @@ class _HomeState extends State<Home> {
                     width: 71,
                     height: 29,
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -204,9 +207,23 @@ class _HomeState extends State<Home> {
                   itemBuilder: (context, position) {
                     return Padding(
                       padding: const EdgeInsets.only(left: 5, right: 5),
-                      child: CircleAvatar(
-                        radius: 30,
-                        backgroundImage: AssetImage("assets/e.png"),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage: AssetImage("assets/e.png"),
+                          ),
+                          Text(
+                            'Beauty',
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                color: Color(0xFF21003D),
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -223,19 +240,22 @@ class _HomeState extends State<Home> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator(),);
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-                if(snapshot.hasError){
-                  return Center(child:Text("Error"));
+                if (snapshot.hasError) {
+                  return Center(child: Text("Error"));
                 }
-                if(snapshot.hasData){
-                 return CarouselSlider.builder(
+                if (snapshot.hasData) {
+                  return CarouselSlider.builder(
                     itemCount: snapshot.data!.docs.length,
-                    itemBuilder:
-                        (BuildContext context, int itemIndex, int pageViewIndex) =>
+                    itemBuilder: (BuildContext context, int itemIndex,
+                            int pageViewIndex) =>
                         Container(
-                          child: Image.network(snapshot.data!.docs[itemIndex]["image"].toString()),
-                        ),
+                      child: Image.network(
+                          snapshot.data!.docs[itemIndex]["image"].toString()),
+                    ),
                     options: CarouselOptions(
                       height: 200,
                       aspectRatio: 16 / 9,
@@ -257,12 +277,10 @@ class _HomeState extends State<Home> {
                       scrollDirection: Axis.horizontal,
                     ),
                   );
-                }
-                else{
+                } else {
                   return SizedBox();
                 }
               },
-
             ),
             AnimatedSmoothIndicator(
               activeIndex: currentIndex,
@@ -293,9 +311,7 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          right: 150, top: 5
-                      ),
+                      padding: const EdgeInsets.only(right: 150, top: 5),
                       child: Text(
                         'Deal of the Day',
                         style: GoogleFonts.montserrat(
@@ -373,29 +389,34 @@ class _HomeState extends State<Home> {
               height: 20.h,
             ),
             SizedBox(
-              height: 210.h,
+              height: 270.h,
               width: double.infinity,
               child: StreamBuilder(
-                stream: firestore2
-                ,
+                stream: firestore2,
                 builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                  if(!snapshot.hasData){
-                    return Center(child: CircularProgressIndicator(),);
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   }
-                  if(snapshot.hasError){
-                    return Center(child: Text("Error"),);
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Error"),
+                    );
                   }
-                  if(snapshot.hasData){
-                    return  ListView.separated(
+                  if (snapshot.hasData) {
+                    return ListView.separated(
                       itemCount: snapshot.data!.docs.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, position) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context, MaterialPageRoute(builder: (_) =>
-                                Productdetails()));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => Productdetails()));
                           },
                           child: Container(
                             height: 88.h,
@@ -403,11 +424,18 @@ class _HomeState extends State<Home> {
                             decoration: ShapeDecoration(shape: OvalBorder()),
                             child: Column(
                               children: [
-                                Image.network(snapshot.data!.docs[position]["images"][0].toString()
-                                  ,fit: BoxFit.cover,
+                                Container(
+                                  height: 178.h,
+                                  width: 150.w,
+                                  child: Image.network(
+                                    snapshot.data!.docs[position]["images"][0]
+                                        .toString(),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 Text(
-                                  snapshot.data!.docs[position]["name"].toString(),
+                                  snapshot.data!.docs[position]["name"]
+                                      .toString(),
                                   style: GoogleFonts.montserrat(
                                     color: Colors.black,
                                     fontSize: 12.sp,
@@ -417,7 +445,10 @@ class _HomeState extends State<Home> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Text(
-                                    snapshot.data!.docs[position]["productDetails"].toString(),
+                                    maxLines: 2,
+                                    snapshot
+                                        .data!.docs[position]["productDetails"]
+                                        .toString(),
                                     style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontSize: 10.sp,
@@ -426,9 +457,11 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 80, top: 3),
+                                  padding:
+                                      const EdgeInsets.only(right: 80, top: 3),
                                   child: Text(
-                                    snapshot.data!.docs[position]["offer price"].toString(),
+                                    snapshot.data!.docs[position]["offer price"]
+                                        .toString(),
                                     style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontSize: 12.sp,
@@ -437,13 +470,17 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 10, top: 2),
+                                  padding:
+                                      const EdgeInsets.only(left: 10, top: 2),
                                   child: Row(
                                     children: [
                                       Text(
-                                        snapshot.data!.docs[position]["orginal price"].toString(),
+                                        snapshot.data!
+                                            .docs[position]["orginal price"]
+                                            .toString(),
                                         style: GoogleFonts.montserrat(
-                                          decoration: TextDecoration.lineThrough,
+                                          decoration:
+                                              TextDecoration.lineThrough,
                                           color: Color(0xFF808488),
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.w300,
@@ -453,7 +490,9 @@ class _HomeState extends State<Home> {
                                         width: 10.w,
                                       ),
                                       Text(
-                                        snapshot.data!.docs[position]["discount"].toString(),
+                                        snapshot
+                                            .data!.docs[position]["discount"]
+                                            .toString(),
                                         style: GoogleFonts.montserrat(
                                           color: Color(0xFFFE735C),
                                           fontSize: 10.sp,
@@ -480,7 +519,8 @@ class _HomeState extends State<Home> {
                                         width: 12.w,
                                       ),
                                       Text(
-                                        snapshot.data!.docs[position]["rating"].toString(),
+                                        snapshot.data!.docs[position]["rating"]
+                                            .toString(),
                                         style: GoogleFonts.montserrat(
                                           color: Color(0xFFA4A9B3),
                                           fontSize: 10.sp,
@@ -501,12 +541,10 @@ class _HomeState extends State<Home> {
                         );
                       },
                     );
-                  }
-                  else{
+                  } else {
                     return SizedBox();
                   }
                 },
-
               ),
             ),
           ],
