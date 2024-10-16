@@ -31,7 +31,8 @@ class _CartState extends State<Cart> {
               padding: EdgeInsets.all(8.0),
               itemCount:38,
               itemBuilder: (context, index) {
-                return GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Productdetails()));},
+                return GestureDetector(
+                  // onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Productdetails()));},
                   child: Container(
                     height: 200.h,
                     width: 150.w,
@@ -77,11 +78,11 @@ class _CartState extends State<Cart> {
                         SizedBox(height: 10.h,),
                         Row(
                           children: [
-                            RatingBar(
-                              filledIcon: Icons.star,size:15,
+                            RatingBar.readOnly(
+                              filledIcon: Icons.star,
                               emptyIcon: Icons.star_border,
-                              onRatingChanged: (value) => debugPrint('$value'),
-                              initialRating: 3,
+                              initialRating: 4,
+                              size: 15,
                               maxRating: 5,
                             ),SizedBox(width: 15.w,),
                             Text(

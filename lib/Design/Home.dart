@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:ecommeurcefb/Design/Profile.dart';
 import 'package:ecommeurcefb/Design/cart.dart';
+import 'package:ecommeurcefb/Design/category.dart';
 import 'package:ecommeurcefb/Design/productdetails.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ class _HomeState extends State<Home> {
   final firestore = FirebaseFirestore.instance.collection("Banner").snapshots();
   final firestore2 =
       FirebaseFirestore.instance.collection("deal of the day").snapshots();
+  final firestore3 =
+      FirebaseFirestore.instance.collection("categories").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -201,36 +204,70 @@ class _HomeState extends State<Home> {
                 width: double.infinity,
                 height: 75.h,
                 color: Colors.white,
-                child: ListView.separated(
-                  itemCount: 10,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, position) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 5, right: 5),
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundImage: AssetImage("assets/e.png"),
-                          ),
-                          Text(
-                            'Beauty',
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                color: Color(0xFF21003D),
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
+                child: StreamBuilder(
+                  stream: firestore3,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text("Error"),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      return ListView.separated(
+                        itemCount: snapshot.data!.docs.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, position) {
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 5, right: 5),
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => Category(
+                                                  product: snapshot
+                                                          .data!.docs[position]
+                                                      ["product"],
+                                                )));
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 30,
+                                    backgroundImage: NetworkImage(snapshot
+                                        .data!.docs[position]['image']
+                                        .toString()),
+                                  ),
+                                ),
+                                Text(
+                                  snapshot.data!.docs[position]['name']
+                                      .toString(),
+                                  style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                      color: Color(0xFF21003D),
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, position) {
-                    return SizedBox(
-                      width: 1.w,
-                    );
+                          );
+                        },
+                        separatorBuilder: (context, position) {
+                          return SizedBox(
+                            width: 1.w,
+                          );
+                        },
+                      );
+                    } else {
+                      return SizedBox();
+                    }
                   },
                 ),
               ),
@@ -416,7 +453,26 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => Productdetails()));
+                                    builder: (_) => Productdetails(
+                                          image: snapshot.data!.docs[position]
+                                              ["images"],
+                                          name: snapshot
+                                              .data!.docs[position]["name"]
+                                              .toString(),
+                                          raiting:    snapshot.data!
+                                              .docs[position]["rating"]
+                                              .toString(),
+                                          offerprice:    snapshot.data!
+                                              .docs[position]["offer price"]
+                                              .toString(),
+                                          orginalprice:   snapshot.data!
+                                              .docs[position]["orginal price"]
+                                              .toString(),
+                                          productDetails:    snapshot.data!
+                                              .docs[position]["productDetails"]
+                                              .toString(), discount:  snapshot.data!
+                                        .docs[position]["discount"],
+                                        )));
                           },
                           child: Container(
                             height: 88.h,

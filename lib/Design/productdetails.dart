@@ -7,7 +7,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Productdetails extends StatefulWidget {
-  const Productdetails({super.key});
+  final List<dynamic> image;
+  final String name;
+  final String raiting;
+  final String offerprice;
+  final String orginalprice;
+  final String productDetails;
+  final String discount;
+
+  const Productdetails(
+      {super.key,
+      required this.image,
+      required this.name,
+      required this.raiting,
+      required this.offerprice,
+      required this.orginalprice,
+      required this.productDetails, required this.discount});
 
   @override
   State<Productdetails> createState() => _ProductdetailsState();
@@ -40,12 +55,12 @@ class _ProductdetailsState extends State<Productdetails> {
       body: Column(
         children: [
           CarouselSlider.builder(
-            itemCount: 15,
+            itemCount:widget.image.length,
             itemBuilder:
                 (BuildContext context, int itemIndex, int pageViewIndex) =>
-                Container(
-                  child: Image.asset('assets/i.png'),
-                ),
+                    Container(
+              child: Image.network(widget.image[itemIndex].toString()),
+            ),
             options: CarouselOptions(
               height: 200.h,
               aspectRatio: 16 / 9,
@@ -66,7 +81,7 @@ class _ProductdetailsState extends State<Productdetails> {
               enlargeFactor: 0.3,
               scrollDirection: Axis.horizontal,
             ),
-          ),
+          ),SizedBox(height: 20.h,),
           AnimatedSmoothIndicator(
             activeIndex: currentindex,
             count: 5,
@@ -86,7 +101,7 @@ class _ProductdetailsState extends State<Productdetails> {
           Padding(
             padding: const EdgeInsets.only(right: 150),
             child: Text(
-              'NIke Sneakers',
+              widget.name.toString(),
               style: GoogleFonts.montserrat(
                 color: Colors.black,
                 fontSize: 20.sp,
@@ -98,15 +113,16 @@ class _ProductdetailsState extends State<Productdetails> {
             padding: const EdgeInsets.only(left: 20, top: 10),
             child: Row(
               children: [
-                RatingBar(
+                RatingBar.readOnly(
                   filledIcon: Icons.star,
-                  size: 20.sp,
                   emptyIcon: Icons.star_border,
-                  onRatingChanged: (value) => debugPrint('$value'),
-                  initialRating: 3,
+                  initialRating: 4,
+                  size: 15,
                   maxRating: 5,
                 ),
-                SizedBox(width: 170.w,),
+                SizedBox(
+                  width: 170.w,
+                ),
                 Icon(Icons.favorite_border)
               ],
             ),
@@ -116,7 +132,7 @@ class _ProductdetailsState extends State<Productdetails> {
             child: Row(
               children: [
                 Text(
-                  '₹2,999',
+                  widget.orginalprice.toString(),
                   style: GoogleFonts.montserrat(
                     decoration: TextDecoration.lineThrough,
                     color: Color(0xFF808488),
@@ -128,7 +144,7 @@ class _ProductdetailsState extends State<Productdetails> {
                   width: 10.w,
                 ),
                 Text(
-                  '₹1,500',
+                  widget.offerprice.toString(),
                   style: GoogleFonts.montserrat(
                     color: Colors.black,
                     fontSize: 14.sp,
@@ -139,7 +155,7 @@ class _ProductdetailsState extends State<Productdetails> {
                   width: 10.w,
                 ),
                 Text(
-                  '50% Off',
+                  widget.discount.toString(),
                   style: GoogleFonts.montserrat(
                     color: Color(0xFFF97189),
                     fontSize: 14.sp,
@@ -162,9 +178,7 @@ class _ProductdetailsState extends State<Productdetails> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
-            child: Text(
-              "Perhaps the most iconic sneaker of all-time, this original"
-                  "Chicago? colorway is the cornerstone to anysneaker collection. Made famous in 1985 by Michael Jordan, the shoe hasstood the test of time, becoming themost famous colorway of the Air Jordan 1. This 2015 release saw the",
+            child: Text(widget.productDetails.toString(),
               style: GoogleFonts.montserrat(
                 color: Colors.black,
                 fontSize: 12.sp,
@@ -173,7 +187,7 @@ class _ProductdetailsState extends State<Productdetails> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 30,top: 40),
+            padding: const EdgeInsets.only(left: 30, top: 40),
             child: Row(
               children: [
                 Container(
@@ -194,7 +208,9 @@ class _ProductdetailsState extends State<Productdetails> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20.w,),
+                SizedBox(
+                  width: 20.w,
+                ),
                 Container(
                   height: 40.h,
                   width: 135.w,
