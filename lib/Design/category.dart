@@ -35,21 +35,27 @@ class _CategoryState extends State<Category> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) =>
-                            Productdetails(
-                              image: widget.product[index]['image'],
-                              name: widget.product[index]['name'].toString(),
-                              raiting: widget.product[index]['raiting']
-                                  .toString(),
-                              offerprice: widget.product[index]['offerprice']
-                                  .toString(),
-                              orginalprice: widget
-                                  .product[index]['orginalprice'].toString(),
-                              productDetails: widget
-                                  .product[index]['productDetails'].toString(),
-                              discount: widget.product[index]['discount']
-                            )));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => Productdetails(
+                                  image: widget.product[index]['image'],
+                                  name:
+                                      widget.product[index]['name'].toString(),
+                                  raiting: widget.product[index]['raiting']
+                                      .toString(),
+                                  offerprice: widget.product[index]
+                                          ['offerprice']
+                                      .toString(),
+                                  orginalprice: widget.product[index]
+                                          ['orginalprice']
+                                      .toString(),
+                                  productDetails: widget.product[index]
+                                          ['productDetails']
+                                      .toString(),
+                                  discount: widget.product[index]['discount'],
+                                  id: widget.product[index]['id'].toString(),
+                                )));
                   },
                   child: Container(
                     height: 400.h,
@@ -57,7 +63,9 @@ class _CategoryState extends State<Category> {
                     decoration: ShapeDecoration(shape: OvalBorder()),
                     child: Column(
                       children: [
-                        Container(height: 180.h, width: 200.w,
+                        Container(
+                          height: 180.h,
+                          width: 200.w,
                           child: Image.network(
                             widget.product[index]['image'][0].toString(),
                             fit: BoxFit.cover,
@@ -77,7 +85,8 @@ class _CategoryState extends State<Category> {
                         SizedBox(
                           height: 5.h,
                         ),
-                        Text(maxLines: 2,
+                        Text(
+                          maxLines: 2,
                           widget.product[index]['productDetails'].toString(),
                           style: GoogleFonts.montserrat(
                             color: Colors.black,
@@ -102,7 +111,9 @@ class _CategoryState extends State<Category> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              SizedBox(width: 10.w,),
+                              SizedBox(
+                                width: 10.w,
+                              ),
                               Text(
                                 widget.product[index]['offerprice'].toString(),
                                 style: GoogleFonts.montserrat(
@@ -110,14 +121,16 @@ class _CategoryState extends State<Category> {
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
-                              ), SizedBox(width: 10.w,),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
                               Text(
                                 widget.product[index]['discount'].toString(),
                                 style: GoogleFonts.montserrat(
                                   color: Color(0xFFFE735C),
                                   fontSize: 10.sp,
                                   fontWeight: FontWeight.w400,
-
                                 ),
                               )
                             ],
@@ -137,7 +150,6 @@ class _CategoryState extends State<Category> {
                               size: 15,
                               maxRating: 5,
                             ),
-
                             SizedBox(
                               width: 10.w,
                             ),
@@ -147,7 +159,6 @@ class _CategoryState extends State<Category> {
                                 color: Colors.black,
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w400,
-
                               ),
                             )
                           ],

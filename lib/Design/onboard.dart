@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-class Screen2 extends StatefulWidget {
-  const Screen2({super.key});
+class Onboard extends StatefulWidget {
+  const Onboard({super.key});
 
   @override
-  State<Screen2> createState() => _Screen2State();
+  State<Onboard> createState() => _OnboardState();
 }
 
-class _Screen2State extends State<Screen2> {
+class _OnboardState extends State<Onboard> {
   @override
 
   Widget build(BuildContext context) {

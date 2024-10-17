@@ -459,19 +459,21 @@ class _HomeState extends State<Home> {
                                           name: snapshot
                                               .data!.docs[position]["name"]
                                               .toString(),
-                                          raiting:    snapshot.data!
-                                              .docs[position]["rating"]
+                                          raiting: snapshot
+                                              .data!.docs[position]["rating"]
                                               .toString(),
-                                          offerprice:    snapshot.data!
+                                          offerprice: snapshot.data!
                                               .docs[position]["offer price"]
                                               .toString(),
-                                          orginalprice:   snapshot.data!
+                                          orginalprice: snapshot.data!
                                               .docs[position]["orginal price"]
                                               .toString(),
-                                          productDetails:    snapshot.data!
+                                          productDetails: snapshot.data!
                                               .docs[position]["productDetails"]
-                                              .toString(), discount:  snapshot.data!
-                                        .docs[position]["discount"],
+                                              .toString(),
+                                          discount: snapshot
+                                              .data!.docs[position]["discount"].toString(),
+                                          id: snapshot.data!.docs[position]['id'].toString(),
                                         )));
                           },
                           child: Container(
@@ -568,7 +570,7 @@ class _HomeState extends State<Home> {
                                         emptyIcon: Icons.star_border,
                                         onRatingChanged: (value) =>
                                             debugPrint('$value'),
-                                        initialRating: 3,
+                                        initialRating: double.parse( snapshot.data!.docs[position]["rating"]),
                                         maxRating: 5,
                                       ),
                                       SizedBox(

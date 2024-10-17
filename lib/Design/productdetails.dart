@@ -1,10 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
-import 'package:ecommeurcefb/Design/Home.dart';
+import 'package:ecommeurcefb/Design/cart.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'Wishlist.dart';
 
 class Productdetails extends StatefulWidget {
   final List<dynamic> image;
@@ -14,6 +18,7 @@ class Productdetails extends StatefulWidget {
   final String orginalprice;
   final String productDetails;
   final String discount;
+  final String id;
 
   const Productdetails(
       {super.key,
@@ -22,7 +27,9 @@ class Productdetails extends StatefulWidget {
       required this.raiting,
       required this.offerprice,
       required this.orginalprice,
-      required this.productDetails, required this.discount});
+      required this.productDetails,
+      required this.discount,
+      required this.id});
 
   @override
   State<Productdetails> createState() => _ProductdetailsState();
@@ -30,6 +37,8 @@ class Productdetails extends StatefulWidget {
 
 class _ProductdetailsState extends State<Productdetails> {
   int currentindex = 0;
+  final FireStore = FirebaseFirestore.instance.collection("user");
+  final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +64,7 @@ class _ProductdetailsState extends State<Productdetails> {
       body: Column(
         children: [
           CarouselSlider.builder(
-            itemCount:widget.image.length,
+            itemCount: widget.image.length,
             itemBuilder:
                 (BuildContext context, int itemIndex, int pageViewIndex) =>
                     Container(
@@ -81,7 +90,10 @@ class _ProductdetailsState extends State<Productdetails> {
               enlargeFactor: 0.3,
               scrollDirection: Axis.horizontal,
             ),
-          ),SizedBox(height: 20.h,),
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
           AnimatedSmoothIndicator(
             activeIndex: currentindex,
             count: 5,
@@ -123,7 +135,42 @@ class _ProductdetailsState extends State<Productdetails> {
                 SizedBox(
                   width: 170.w,
                 ),
-                Icon(Icons.favorite_border)
+                GestureDetector(
+                    onTap: () {
+                      FireStore.doc(auth.currentUser!.uid.toString())
+                          .collection("favorite")
+                          .doc(widget.id)
+                          .set({
+                        'id': widget.id.toString(),
+                        'name': widget.name.toString(),
+                        "discount": widget.discount.toString(),
+                        'rating': widget.raiting.toString(),
+                        'productDetails': widget.productDetails.toString(),
+                        'orginal price': widget.orginalprice.toString(),
+                        'offer price': widget.offerprice.toString(),
+                        'images': widget.image
+                      }).then(
+                        (value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              duration: Duration(seconds: 3),
+                              behavior: SnackBarBehavior.floating,
+                              content: Text('Go to Wish list'),
+                              action: SnackBarAction(
+                                label: 'Wish List',
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => Wishlist()));
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Icon(Icons.favorite_border))
               ],
             ),
           ),
@@ -178,7 +225,8 @@ class _ProductdetailsState extends State<Productdetails> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),
-            child: Text(widget.productDetails.toString(),
+            child: Text(
+              widget.productDetails.toString(),
               style: GoogleFonts.montserrat(
                 color: Colors.black,
                 fontSize: 12.sp,
@@ -196,14 +244,20 @@ class _ProductdetailsState extends State<Productdetails> {
                   padding: const EdgeInsets.all(4),
                   color: Colors.blue,
                   child: Center(
-                    child: Text(
-                      'Go to cart',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: 0.08,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (_) => Cart()));
+                      },
+                      child: Text(
+                        'Go to cart',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                          height: 0.08,
+                        ),
                       ),
                     ),
                   ),

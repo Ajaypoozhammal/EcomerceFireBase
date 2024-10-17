@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommeurcefb/Design/Start.dart';
 import 'package:ecommeurcefb/Design/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,29 +20,32 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  final firestore = FirebaseFirestore.instance.collection('user');
 
   Future<void> signinwithgoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
-      await googleSignIn.signIn();
+          await googleSignIn.signIn();
       final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount!.authentication;
+          await googleSignInAccount!.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken);
 
       final UserCredential userCredential =
-      await auth.signInWithCredential(credential);
+          await auth.signInWithCredential(credential);
       final User? user = userCredential.user;
       if (user != null) {
-        Navigator.of(context).push( MaterialPageRoute(builder: (_) => Bottomnavigation()));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => Bottomnavigation()));
         ToastMessage().toastmessage(message: 'succusfully completed');
       }
     } catch (e) {
       ToastMessage().toastmessage(message: e.toString());
     }
   }
+
   @override
   void initState() {
     visible = false;
@@ -51,6 +56,7 @@ class _SignupState extends State<Signup> {
   TextEditingController password = TextEditingController();
   TextEditingController Email = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
+  TextEditingController name = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;
   final formkey = GlobalKey<FormState>();
   bool visible = false;
@@ -77,6 +83,24 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
                 Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: TextFormField(
+                    controller: name,
+                    validator: (value) {
+                      if (value!.isEmpty ||
+                          !RegExp(r"^[a-zA-Z]+").hasMatch(value)) {
+                        return 'Enter a valid name!';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.r)),
+                        prefixIcon: Icon(Icons.person),
+                        labelText: "username"),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.all(10),
                   child: TextFormField(
                     controller: Email,
@@ -92,7 +116,7 @@ class _SignupState extends State<Signup> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.r)),
                         prefixIcon: Icon(Icons.person),
-                        labelText: "username or Email"),
+                        labelText: " Email"),
                   ),
                 ),
                 Padding(
@@ -198,21 +222,33 @@ class _SignupState extends State<Signup> {
                   height: 20.h,
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     if (formkey.currentState!.validate()) {
-                      auth
+                      await auth
                           .createUserWithEmailAndPassword(
-                              email: Email.text, password: password.text)
-                          .then((value) => {
-                                ToastMessage().toastmessage(
-                                    message: 'Successfully registerd'),
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => Bottomnavigation()))
-                              })
-                          .onError((error, stackTrace) => ToastMessage()
-                              .toastmessage(message: error.toString()));
+                          email: Email.text.toString(),
+                          password: password.text.toString())
+                          .then(
+                            (value) async {
+                          firestore.doc(value.user!.uid.toString()).set({
+                            "id": value.user!.uid.toString(),
+                            "name": name.text.toString(),
+                            "email": Email.text.toString(),
+                            "Profile": "",
+                          });
+
+
+                          ToastMessage()
+                              .toastmessage(message: 'Succesfull');
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => Bottomnavigation()));
+                        },
+                      ).onError(
+                            (error, stackTrace) => ToastMessage()
+                            .toastmessage(message: error.toString()),
+                      );
                     }
                   },
                   child: Container(
