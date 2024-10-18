@@ -52,7 +52,7 @@ class _WishlistState extends State<Wishlist> {
                  return GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 300 / 400,
+                      childAspectRatio: 260 / 400,
                       mainAxisSpacing: 4.0,
                       crossAxisSpacing: 8.0,
                     ),
@@ -77,26 +77,16 @@ class _WishlistState extends State<Wishlist> {
                               SizedBox(
                                 height: 5.h,
                               ),
-                              Text(
-                                snapshot.data!.docs[index]["name"]
-                                  .toString(),
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5.h,
-                              ),
-
-                              Text(maxLines: 2,
-                                snapshot.data!.docs[index]["productDetails"]
-                                    .toString(),                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 10.sp,
-
-                                  fontWeight: FontWeight.w400,
+                              Padding(
+                                padding: const EdgeInsets.only(right: 50),
+                                child: Text(
+                                  snapshot.data!.docs[index]["name"]
+                                    .toString(),
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -104,20 +94,32 @@ class _WishlistState extends State<Wishlist> {
                               ),
 
                               Padding(
-                                padding: const EdgeInsets.only(right: 110),
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(maxLines: 2,
+                                  snapshot.data!.docs[index]["productDetails"]
+                                      .toString(),                                style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 10.sp,
+
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+
+
+                              Padding(
+                                padding: const EdgeInsets.only(right: 90),
                                 child: Text(
                                   snapshot.data!.docs[index]["offer price"]
                                       .toString(),
                                   style: GoogleFonts.montserrat(
                                     color: Colors.black,
-                                    fontSize: 12.sp,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
+
                               Row(
                                 children: [
                                   RatingBar.readOnly(

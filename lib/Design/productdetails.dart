@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:ecommeurcefb/Design/cart.dart';
+import 'package:ecommeurcefb/Toast%20msg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,10 +38,42 @@ class Productdetails extends StatefulWidget {
 
 class _ProductdetailsState extends State<Productdetails> {
   int currentindex = 0;
+  bool favorite = false;
+  bool looding = false;
   final FireStore = FirebaseFirestore.instance.collection("user");
   final auth = FirebaseAuth.instance;
 
   @override
+  void initState() {
+    checkfavorite();
+
+    super.initState();
+  }
+
+  Future<void> checkfavorite() async {
+    final firestoreCollection = FirebaseFirestore.instance
+        .collection('user')
+        .doc(auth.currentUser!.uid)
+        .collection('favorite');
+
+    QuerySnapshot querySnapshot = await firestoreCollection.get();
+
+    // Get data from docs and convert map to List
+
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['id'].toString() == widget.id.toString()) {
+        print("item found");
+        setState(() {
+          favorite = true;
+        });
+      } else {
+        print("item not found");
+      }
+    }
+
+    // print("hi"+querySnapshot.docs.map((e){});
+  }
+
   Widget build(BuildContext context) {
     PageController controller = PageController();
     return Scaffold(
@@ -137,40 +170,63 @@ class _ProductdetailsState extends State<Productdetails> {
                 ),
                 GestureDetector(
                     onTap: () {
-                      FireStore.doc(auth.currentUser!.uid.toString())
-                          .collection("favorite")
-                          .doc(widget.id)
-                          .set({
-                        'id': widget.id.toString(),
-                        'name': widget.name.toString(),
-                        "discount": widget.discount.toString(),
-                        'rating': widget.raiting.toString(),
-                        'productDetails': widget.productDetails.toString(),
-                        'orginal price': widget.orginalprice.toString(),
-                        'offer price': widget.offerprice.toString(),
-                        'images': widget.image
-                      }).then(
-                        (value) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              duration: Duration(seconds: 3),
-                              behavior: SnackBarBehavior.floating,
-                              content: Text('Go to Wish list'),
-                              action: SnackBarAction(
-                                label: 'Wish List',
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => Wishlist()));
-                                },
+                      checkfavorite();
+                      if (favorite == true) {
+                        FireStore.doc(auth.currentUser!.uid.toString())
+                            .collection("favorite")
+                            .doc(widget.id.toString())
+                            .delete()
+                            .then(
+                          (value) {
+                            setState(() {
+                              favorite = false;
+                            });
+                          },
+                        ).onError((Error, StackTrace) {
+                          ToastMessage()
+                              .toastmessage(message: Error.toString());
+                        });
+                      } else {
+                        FireStore.doc(auth.currentUser!.uid.toString())
+                            .collection("favorite")
+                            .doc(widget.id)
+                            .set({
+                          'id': widget.id.toString(),
+                          'name': widget.name.toString(),
+                          "discount": widget.discount.toString(),
+                          'rating': widget.raiting.toString(),
+                          'productDetails': widget.productDetails.toString(),
+                          'orginal price': widget.orginalprice.toString(),
+                          'offer price': widget.offerprice.toString(),
+                          'images': widget.image
+                        }).then(
+                          (value) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: Duration(seconds: 3),
+                                behavior: SnackBarBehavior.floating,
+                                content: Text('Go to Wish list'),
+                                action: SnackBarAction(
+                                  label: 'Wish List',
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => Wishlist()));
+                                  },
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
+                            );
+                          },
+                        );
+                      }
                     },
-                    child: Icon(Icons.favorite_border))
+                    child: favorite == true
+                        ? Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          )
+                        : Icon(Icons.favorite_border))
               ],
             ),
           ),
@@ -246,8 +302,38 @@ class _ProductdetailsState extends State<Productdetails> {
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context, MaterialPageRoute(builder: (_) => Cart()));
+                        FireStore.doc(auth.currentUser!.uid.toString())
+                            .collection("cart")
+                            .doc(widget.id)
+                            .set({
+                          'id': widget.id.toString(),
+                          'name': widget.name.toString(),
+                          "discount": widget.discount.toString(),
+                          'rating': widget.raiting.toString(),
+                          'productDetails': widget.productDetails.toString(),
+                          'orginal price': widget.orginalprice.toString(),
+                          'offer price': widget.offerprice.toString(),
+                          'images': widget.image
+                        }).then(
+                          (value) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: Duration(seconds: 3),
+                                behavior: SnackBarBehavior.floating,
+                                content: Text('Go to cart'),
+                                action: SnackBarAction(
+                                  label: 'cart',
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => Cart()));
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       },
                       child: Text(
                         'Go to cart',
