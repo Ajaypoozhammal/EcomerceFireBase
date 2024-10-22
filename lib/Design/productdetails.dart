@@ -2,11 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:ecommeurcefb/Design/cart.dart';
+import 'package:ecommeurcefb/Design/payment.dart';
 import 'package:ecommeurcefb/Toast%20msg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'Wishlist.dart';
@@ -348,24 +350,28 @@ class _ProductdetailsState extends State<Productdetails> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 20.w,
-                ),
-                Container(
-                  height: 40.h,
-                  width: 135.w,
-                  padding: const EdgeInsets.all(4),
-                  color: Colors.green,
-                  child: Center(
-                    child: Text(
-                      'By Now',
-                      style: GoogleFonts.montserrat(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Payment()));
+
+                },
+                  child: Container(
+                    height: 40.h,
+                    width: 135.w,
+                    padding: const EdgeInsets.all(4),
+                    color: Colors.green,
+                    child: Center(
+                      child: Text(
+                        'By Now',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),
+                ),
+                SizedBox(
+                  width: 20.w,
                 ),
               ],
             ),

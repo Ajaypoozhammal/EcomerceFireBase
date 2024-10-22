@@ -5,7 +5,7 @@ import 'package:ecommeurcefb/Design/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'Profile.dart';
+import 'settings/Profile.dart';
 
 class Bottomnavigation extends StatefulWidget {
   const Bottomnavigation({super.key});

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'Home.dart';
+import '../Home.dart';
 
 class Edit extends StatefulWidget {
   const Edit({super.key});

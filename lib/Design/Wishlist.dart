@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
-import 'package:ecommeurcefb/Design/Profile.dart';
+import 'package:ecommeurcefb/Design/settings/Profile.dart';
 import 'package:ecommeurcefb/Design/productdetails.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

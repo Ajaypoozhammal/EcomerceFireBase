@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
-import 'package:ecommeurcefb/Design/Profile.dart';
+import 'package:ecommeurcefb/Design/settings/Profile.dart';
 import 'package:ecommeurcefb/Design/cart.dart';
 import 'package:ecommeurcefb/Design/category.dart';
 import 'package:ecommeurcefb/Design/productdetails.dart';

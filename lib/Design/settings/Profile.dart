@@ -1,4 +1,4 @@
-import 'package:ecommeurcefb/Design/Edit.dart';
+import 'package:ecommeurcefb/Design/settings/Edit.dart';
 import 'package:ecommeurcefb/Design/Order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

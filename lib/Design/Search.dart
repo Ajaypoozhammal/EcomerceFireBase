@@ -3,6 +3,8 @@ import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -14,7 +16,40 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   final firestore2 =
       FirebaseFirestore.instance.collection("deal of the day").snapshots();
-  TextEditingController search = TextEditingController();
+  SpeechToText _speechToText = SpeechToText();
+  final TextEditingController search = TextEditingController();
+  var islistening = false;
+  bool speachEnabled = false;
+
+  void _initSpeech() async {
+    speachEnabled = await _speechToText.initialize();
+    print('init');
+    setState(() {});
+  }
+
+  void _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+    setState(() {});
+    print('start');
+  }
+
+  void _stopListening() async {
+    print('stop');
+    await _speechToText.stop();
+    setState(() {});
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      search.text = result.recognizedWords;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +67,21 @@ class _SearchState extends State<Search> {
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(40.r)),
               prefixIcon: Icon(Icons.search),
-              suffix: Icon(Icons.mic)
+              suffix: GestureDetector(
+                onTap: _speechToText.isNotListening
+                    ? _startListening
+                    : _stopListening,
+                child: CircleAvatar(
+                  radius: 23.r,
+                  backgroundColor: Colors.black,
+                  child: Center(
+                    child: Icon(
+                      _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
+                      color: Color(0xFFBBBBBB),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ),
