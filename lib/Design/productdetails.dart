@@ -350,9 +350,21 @@ class _ProductdetailsState extends State<Productdetails> {
                     ),
                   ),
                 ),
-                GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Payment()));
-
-                },
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => Payment(
+                                  images: widget.image,
+                                  name: widget.name.toString(),
+                                  offerprice: widget.offerprice.toString(),
+                                  productDetails: widget.productDetails.toString(),
+                                  rating: widget.raiting.toString(),
+                                  discount: widget.discount.toString(),
+                                  id: widget.id.toString(),
+                                )));
+                  },
                   child: Container(
                     height: 40.h,
                     width: 135.w,
