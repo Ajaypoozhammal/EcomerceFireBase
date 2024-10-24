@@ -359,11 +359,13 @@ class _ProductdetailsState extends State<Productdetails> {
                                   images: widget.image,
                                   name: widget.name.toString(),
                                   offerprice: widget.offerprice.toString(),
-                                  productDetails: widget.productDetails.toString(),
+                                  productDetails:
+                                      widget.productDetails.toString(),
                                   rating: widget.raiting.toString(),
                                   discount: widget.discount.toString(),
                                   id: widget.id.toString(),
-                                )));
+                                  orginalprice: widget.orginalprice.toString(),
+                                ),),);
                   },
                   child: Container(
                     height: 40.h,

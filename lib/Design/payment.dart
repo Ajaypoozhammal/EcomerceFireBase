@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:ecommeurcefb/Design/Order.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,7 @@ class Payment extends StatefulWidget {
   final String rating;
   final String discount;
   final String id;
+  final String orginalprice;
 
   const Payment(
       {super.key,
@@ -24,7 +26,8 @@ class Payment extends StatefulWidget {
       required this.productDetails,
       required this.rating,
       required this.discount,
-      required this.id});
+      required this.id,
+      required this.orginalprice});
 
   @override
   State<Payment> createState() => _PaymentState();
@@ -47,6 +50,35 @@ class _PaymentState extends State<Payment> {
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
+    firestorecollection
+        .doc(auth.currentUser!.uid.toString())
+        .collection("Order")
+        .doc(widget.id)
+        .set({
+      'id': widget.id.toString(),
+      'date':
+          '${date.day.toString()} ${DateFormat('MMM').format(date)} ${date.year.toString()}',
+      'status':'shipped',
+      'name': widget.name.toString(),
+      "discount": widget.discount.toString(),
+      'rating': widget.rating.toString(),
+      'productDetails': widget.productDetails.toString(),
+      'orginal price': widget.orginalprice.toString(),
+      'offer price': widget.offerprice.toString(),
+      'images': widget.images
+    }).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: Duration(seconds: 3),
+          behavior: SnackBarBehavior.floating,
+          content: Text('Go to order'),
+          action: SnackBarAction(
+            label: 'order',
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => Orders()));
+            },
+          )));
+    });
     /*
     * Payment Success Response contains three values:
     * 1. Order ID
@@ -91,7 +123,6 @@ class _PaymentState extends State<Payment> {
               Navigator.pop(context);
             },
             child: Icon(Icons.arrow_back_ios_new)),
-
         actions: [Icon((Icons.favorite_border))],
       ),
       body: Column(
@@ -125,7 +156,9 @@ class _PaymentState extends State<Payment> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 50.h,width: 200.w,
+                    SizedBox(
+                      height: 50.h,
+                      width: 200.w,
                       child: Text(
                         widget.productDetails.toString(),
                         style: GoogleFonts.montserrat(
@@ -411,7 +444,7 @@ class _PaymentState extends State<Payment> {
                       onTap: () {
                         Razorpay razorpay = Razorpay();
                         var options = {
-                          'key': 'rzp_live_ILgsfZCZoFIKMb',
+                          'key': 'rzp_test_gKANZdsNdLqaQs',
                           'amount': 100,
                           'name': 'Acme Corp.',
                           'description': 'Fine T-Shirt',
