@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../Home.dart';
 
 class Edit extends StatefulWidget {
-  const Edit({super.key});
+  final int index;
+  const Edit({super.key, required this.index});
 
   @override
   State<Edit> createState() => _EditState();
@@ -74,10 +76,12 @@ class _EditState extends State<Edit> {
                     child: CircleAvatar(
                       radius: 12.r,
                       backgroundColor: Colors.blue,
-                      child: Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                        size: 20,
+                      child: GestureDetector(onTap: (){getimage();},
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   )
@@ -87,26 +91,13 @@ class _EditState extends State<Edit> {
             SizedBox(
               height: 30.h,
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 200),
-              child: Text(
-                'Name',
-                style: GoogleFonts.montserrat(
-                  color: Colors.black,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
             SizedBox(
               height: 100.h,
               width: 300,
               child: Padding(
                 padding: const EdgeInsets.only(left: 30),
                 child: TextFormField(
+                  controller: update,
                     decoration: InputDecoration(
                         labelText: "Name",
                         border: OutlineInputBorder(
@@ -117,18 +108,92 @@ class _EditState extends State<Edit> {
             SizedBox(
               width: 20.w,
             ),
-            Container(
-              height: 40.h,
-              width: 135.w,
-              padding: const EdgeInsets.all(4),
-              color: Colors.blueGrey,
-              child: Center(
-                child: Text(
-                  'Submit',
-                  style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+            GestureDetector(onTap:()async{
+              final firestoreCollections=FirebaseFirestore.instance
+                  .collection('Users')
+                  .doc(auth.currentUser!.uid.toString());
+              DocumentSnapshot<Map<String, dynamic>> querySnapshot =
+              await firestoreCollections.get();
+              final id=DateTime.now().microsecondsSinceEpoch.toString();
+              firebase_storage.Reference ref = firebase_storage
+                  .FirebaseStorage.instance
+                  .ref('/foldername/' + id);
+              firebase_storage.UploadTask uploadTask =
+              ref.putFile(image!.absolute);
+              await Future.value(uploadTask).then(
+                    (value) async {
+                  var newurl = await ref.getDownloadURL();
+
+                  firestore
+                      .doc(querySnapshot['id'])
+                      .update({
+                    "name": update.text.toString(),
+                    "Profile": newurl.toString()
+                  }).then(
+                        (value) => {
+
+
+                      update.clear(),
+                      Navigator.pop(context),
+                      setState(() {
+                        image = null;
+                      })
+                    },
+                  );
+                },
+              );
+            },
+              child: GestureDetector(   onTap: () async {
+                final firestoreCollections = FirebaseFirestore.instance
+                    .collection('user')
+                    .doc(auth.currentUser!.uid.toString());
+
+                DocumentSnapshot<Map<String, dynamic>> querySnapshot =
+                await firestoreCollections.get();
+                setState(() {
+
+                });
+                final id =
+                DateTime.now().microsecondsSinceEpoch.toString();
+                firebase_storage.Reference ref = firebase_storage
+                    .FirebaseStorage.instance
+                    .ref('/foldername/' + id);
+                firebase_storage.UploadTask uploadTask =
+                ref.putFile(image!.absolute);
+                await Future.value(uploadTask).then(
+                      (value) async {
+                    var newurl = await ref.getDownloadURL();
+
+                    firestore
+                        .doc(querySnapshot['id'])
+                        .update({
+                      "name": update.text.toString(),
+                      "Profile": newurl.toString()
+                    }).then(
+                          (value) => {
+                        Navigator.pop(context),
+                        setState(() {
+                          image = null;
+                        })
+                      },
+                    );
+                  },
+                );
+              },
+                child: Container(
+                  height: 40.h,
+                  width: 135.w,
+                  padding: const EdgeInsets.all(4),
+                  color: Colors.blueGrey,
+                  child: Center(
+                    child: Text(
+                      'Update',
+                      style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                 ),
               ),
