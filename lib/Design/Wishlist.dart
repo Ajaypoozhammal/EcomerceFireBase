@@ -34,130 +34,144 @@ class _WishlistState extends State<Wishlist> {
         automaticallyImplyLeading: false,
         title: Center(child: Text("Wishlist")),
       ),
-      body: Column(
+      body: Column(crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: StreamBuilder(
               stream: firestore,
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                if(!snapshot.hasData){
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());
                 }
-                if(snapshot.hasError){
+                if (snapshot.hasError) {
                   return Center(
                     child: Text("Error"),
                   );
                 }
-                if(snapshot.hasData){
-                 return GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 260 / 400,
-                      mainAxisSpacing: 4.0,
-                      crossAxisSpacing: 8.0,
-                    ),
-                  
-                    itemCount:snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        // onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Productdetails()));},
-                        child: Container(
-                          height: 400.h,
-                          width: 150.w,
-                          decoration: ShapeDecoration(shape: OvalBorder()),
-                          child: Column(
-                            children: [
-                              Container(height: 100.h,width: 150.w,
-                                child: Image.network(
-                                  snapshot.data!.docs[index]["images"][0].toString()
-                                  ,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5.h,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 50),
-                                child: Text(
-                                  snapshot.data!.docs[index]["name"]
-                                    .toString(),
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
+                if (snapshot.hasData) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 260 / 400,
+                        mainAxisSpacing: 4.0,
+                        crossAxisSpacing: 8.0,
+                      ),
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          // onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Productdetails()));},
+                          child: Container(
+                            height: 400.h,
+                            width: 150.w,
+                            decoration: ShapeDecoration(shape: OvalBorder()),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 170.w,
+                                  height: 124.h,
+                                  child: Image.network(
+                                    snapshot.data!.docs[index]["images"][0]
+                                        .toString(),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 5.h,
-                              ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: Text(
+                                    maxLines: 1,
+                                    snapshot.data!.docs[index]["name"]
+                                        .toString(),
+                                    style: GoogleFonts.montserrat(
+                                      color: Colors.black,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 3.h,
+                                ),
 
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Text(maxLines: 2,
+                                Text(
+                                  maxLines: 2,
                                   snapshot.data!.docs[index]["productDetails"]
-                                      .toString(),                                style: GoogleFonts.montserrat(
-                                    color: Colors.black,
-                                    fontSize: 10.sp,
-
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-
-
-                              Padding(
-                                padding: const EdgeInsets.only(right: 90),
-                                child: Text(
-                                  snapshot.data!.docs[index]["offer price"]
                                       .toString(),
                                   style: GoogleFonts.montserrat(
                                     color: Colors.black,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                              ),
-
-                              Row(
-                                children: [
-                                  RatingBar.readOnly(
-                                    filledIcon: Icons.star,
-                                    emptyIcon: Icons.star_border,
-                                    initialRating: double.parse(snapshot.data!.docs[index]['rating']),
-                                    size: 15,
-                                    maxRating: 5,
-                                  ),
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
-                                  Text(
-                                    snapshot.data!.docs[index]["rating"]
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(right: 90, top: 3),
+                                  child: Text(
+                                    snapshot.data!.docs[index]["offer price"]
                                         .toString(),
                                     style: GoogleFonts.montserrat(
-                                      color: Color(0xFFA4A9B3),
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                  ),SizedBox(width: 20.w,),
-                                  GestureDetector(onTap:(){
-                                    firestore1.doc(snapshot.data!.docs[index]["id"].toString()).delete();
-                                  } ,child:Icon(Icons.delete))
-                                ],
-                              ),
-                            ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    RatingBar.readOnly(
+                                      filledIcon: Icons.star,
+                                      emptyIcon: Icons.star_border,
+                                      initialRating: double.parse(
+                                          snapshot.data!.docs[index]['rating']),
+                                      size: 15,
+                                      maxRating: 5,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    Text(
+                                      snapshot.data!.docs[index]["rating"]
+                                          .toString(),
+                                      style: GoogleFonts.montserrat(
+                                        color: Color(0xFFA4A9B3),
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 20.w,
+                                    ),
+                                    GestureDetector(
+                                        onTap: () {
+                                          firestore1
+                                              .doc(snapshot
+                                                  .data!.docs[index]["id"]
+                                                  .toString())
+                                              .delete();
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ))
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   );
-                }
-                else {
+                } else {
                   return SizedBox();
                 }
               },
-
             ),
           ),
         ],

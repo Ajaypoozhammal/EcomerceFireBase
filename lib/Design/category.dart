@@ -18,7 +18,7 @@ class _CategoryState extends State<Category> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Category")),
+        title: Text("Category"),
       ),
       body: Column(
         children: [
@@ -61,7 +61,7 @@ class _CategoryState extends State<Category> {
                     height: 400.h,
                     width: 150.w,
                     decoration: ShapeDecoration(shape: OvalBorder()),
-                    child: Column(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           height: 180.h,
@@ -91,14 +91,14 @@ class _CategoryState extends State<Category> {
                           style: GoogleFonts.montserrat(
                             color: Colors.black,
                             fontSize: 10.sp,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         SizedBox(
                           height: 5.h,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 30),
+                          padding: const EdgeInsets.only(right: 20),
                           child: Row(
                             children: [
                               Text(

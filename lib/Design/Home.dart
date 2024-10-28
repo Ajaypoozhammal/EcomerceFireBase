@@ -202,7 +202,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.only(top: 20, left: 10),
               child: Container(
                 width: double.infinity,
-                height: 75.h,
+                height: 95.h,
                 color: Colors.white,
                 child: StreamBuilder(
                   stream: firestore3,
@@ -324,9 +324,9 @@ class _HomeState extends State<Home> {
               count: 3,
               effect: WormEffect(
                   spacing: 8.0,
-                  radius: 50,
-                  dotWidth: 10.0,
-                  dotHeight: 10.0,
+                  radius: 50.r,
+                  dotWidth: 5.0.w,
+                  dotHeight: 5.0.h,
                   paintStyle: PaintingStyle.stroke,
                   strokeWidth: 1.5,
                   dotColor: Colors.grey,
@@ -344,80 +344,83 @@ class _HomeState extends State<Home> {
                     borderRadius: BorderRadius.circular(8)),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Column(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 150, top: 5),
-                      child: Text(
-                        'Deal of the Day',
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 180),
-                      child: Container(
-                        width: 89.w,
-                        height: 28.h,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 6),
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Colors.white),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
-                        child: Center(
-                          child: Row(
-                            children: [
-                              Text(
-                                'View all',
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Deal of the Day',
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              Icon(
-                                Icons.arrow_forward_outlined,
-                                color: Colors.white,
-                                size: 15,
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.alarm,
+                              color: Colors.white,
+                              size: 10.sp,
+                            ),
+                            Text(
+                              '22h 55m 20s remaining ',
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 70.w,
+                      height: 28.h,
+
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: Colors.white),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: Center(
+                        child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'View all',
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_outlined,
+                              color: Colors.white,
+                              size: 15.sp,
+                            )
+                          ],
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.alarm,
-                            color: Colors.white,
-                            size: 10,
-                          ),
-                          Text(
-                            '22h 55m 20s remaining ',
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -444,65 +447,68 @@ class _HomeState extends State<Home> {
                     );
                   }
                   if (snapshot.hasData) {
-                    return ListView.separated(
-                      itemCount: snapshot.data!.docs.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, position) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => Productdetails(
-                                          image: snapshot.data!.docs[position]
-                                              ["images"],
-                                          name: snapshot
-                                              .data!.docs[position]["name"]
-                                              .toString(),
-                                          raiting: snapshot
-                                              .data!.docs[position]["rating"]
-                                              .toString(),
-                                          offerprice: snapshot.data!
-                                              .docs[position]["offer price"]
-                                              .toString(),
-                                          orginalprice: snapshot.data!
-                                              .docs[position]["orginal price"]
-                                              .toString(),
-                                          productDetails: snapshot.data!
-                                              .docs[position]["productDetails"]
-                                              .toString(),
-                                          discount: snapshot
-                                              .data!.docs[position]["discount"].toString(),
-                                          id: snapshot.data!.docs[position]['id'].toString(),
-                                        )));
-                          },
-                          child: Container(
-                            height: 88.h,
-                            width: 150.w,
-                            decoration: ShapeDecoration(shape: OvalBorder()),
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 178.h,
-                                  width: 150.w,
-                                  child: Image.network(
-                                    snapshot.data!.docs[position]["images"][0]
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: ListView.separated(
+                        itemCount: snapshot.data!.docs.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, position) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => Productdetails(
+                                            image: snapshot.data!.docs[position]
+                                                ["images"],
+                                            name: snapshot
+                                                .data!.docs[position]["name"]
+                                                .toString(),
+                                            raiting: snapshot
+                                                .data!.docs[position]["rating"]
+                                                .toString(),
+                                            offerprice: snapshot.data!
+                                                .docs[position]["offer price"]
+                                                .toString(),
+                                            orginalprice: snapshot.data!
+                                                .docs[position]["orginal price"]
+                                                .toString(),
+                                            productDetails: snapshot.data!
+                                                .docs[position]["productDetails"]
+                                                .toString(),
+                                            discount: snapshot
+                                                .data!.docs[position]["discount"]
+                                                .toString(),
+                                            id: snapshot
+                                                .data!.docs[position]['id']
+                                                .toString(),
+                                          )));
+                            },
+                            child: Container(
+                              height: 241.h,
+                              width: 170.w,
+                              decoration: ShapeDecoration(shape: OvalBorder()),
+                              child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 178.h,
+                                    width: 150.w,
+                                    child: Image.network(
+                                      snapshot.data!.docs[position]["images"][0]
+                                          .toString(),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Text(
+                                    snapshot.data!.docs[position]["name"]
                                         .toString(),
-                                    fit: BoxFit.cover,
+                                    style: GoogleFonts.montserrat(
+                                      color: Colors.black,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  snapshot.data!.docs[position]["name"]
-                                      .toString(),
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
+                                  Text(
                                     maxLines: 2,
                                     snapshot
                                         .data!.docs[position]["productDetails"]
@@ -513,11 +519,7 @@ class _HomeState extends State<Home> {
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 80, top: 3),
-                                  child: Text(
+                                  Text(
                                     snapshot.data!.docs[position]["offer price"]
                                         .toString(),
                                     style: GoogleFonts.montserrat(
@@ -526,11 +528,7 @@ class _HomeState extends State<Home> {
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 10, top: 2),
-                                  child: Row(
+                                  Row(
                                     children: [
                                       Text(
                                         snapshot.data!
@@ -559,10 +557,7 @@ class _HomeState extends State<Home> {
                                       ),
                                     ],
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Row(
+                                  Row(
                                     children: [
                                       RatingBar(
                                         filledIcon: Icons.star,
@@ -570,7 +565,8 @@ class _HomeState extends State<Home> {
                                         emptyIcon: Icons.star_border,
                                         onRatingChanged: (value) =>
                                             debugPrint('$value'),
-                                        initialRating: double.parse( snapshot.data!.docs[position]["rating"]),
+                                        initialRating: double.parse(snapshot
+                                            .data!.docs[position]["rating"]),
                                         maxRating: 5,
                                       ),
                                       SizedBox(
@@ -586,18 +582,18 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                     ],
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, position) {
-                        return SizedBox(
-                          width: 15.w,
-                        );
-                      },
+                          );
+                        },
+                        separatorBuilder: (context, position) {
+                          return SizedBox(
+                            width: 15.w,
+                          );
+                        },
+                      ),
                     );
                   } else {
                     return SizedBox();
