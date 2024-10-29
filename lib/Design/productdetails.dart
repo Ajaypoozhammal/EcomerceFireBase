@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:ecommeurcefb/Design/cart.dart';
 import 'package:ecommeurcefb/Design/payment.dart';
 import 'package:ecommeurcefb/Toast%20msg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -164,12 +164,39 @@ class _ProductdetailsState extends State<Productdetails> {
             ),
             Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,
               children: [
-                RatingBar.readOnly(
-                  filledIcon: Icons.star,
-                  emptyIcon: Icons.star_border,
-                  initialRating: 4,
-                  size: 15.sp,
-                  maxRating: 5,
+
+                Row(
+                  children: [
+                    RatingBar.builder(
+                      itemSize: 15,
+                      initialRating: double.parse(
+                        widget.raiting.toString(),
+                      ),
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        print(rating);
+                      },
+                    ),
+
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Text(
+                      widget.raiting.toString(),
+                      style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
                 ),
                 GestureDetector(
                     onTap: () {

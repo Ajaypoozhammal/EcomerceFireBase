@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:ecommeurcefb/Design/settings/Profile.dart';
 import 'package:ecommeurcefb/Design/cart.dart';
 import 'package:ecommeurcefb/Design/category.dart';
 import 'package:ecommeurcefb/Design/productdetails.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -73,35 +73,6 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20),
-              child: Container(
-                color: Colors.white,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.r)),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Color(0xFFBBBBBB),
-                    ),
-                    suffix: Icon(
-                      Icons.mic,
-                      color: Color(0xFFBBBBBB),
-                    ),
-                    hintText: ('Search any Product..'),
-                    hintStyle: GoogleFonts.libreCaslonText(
-                      textStyle: TextStyle(
-                        color: Color(0xFFBBBBBB),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
               padding: const EdgeInsets.only(
                 left: 15,
               ),
@@ -119,81 +90,6 @@ class _HomeState extends State<Home> {
                   ),
                   SizedBox(
                     width: 60.w,
-                  ),
-                  Container(
-                    width: 65,
-                    height: 29,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)),
-                      shadows: [
-                        BoxShadow(
-                          color: Color(0x14000000),
-                          blurRadius: 16,
-                          offset: Offset(1, 1),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-                    child: Center(
-                      child: Row(
-                        children: [
-                          Text(
-                            'Sort',
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Image.asset("assets/f.png")
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Container(
-                    width: 71,
-                    height: 29,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)),
-                      shadows: [
-                        BoxShadow(
-                          color: Color(0x14000000),
-                          blurRadius: 16,
-                          offset: Offset(1, 1),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-                    child: Center(
-                      child: Row(
-                        children: [
-                          Text(
-                            'filter',
-                            style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Icon(Icons.filter_alt_outlined)
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -345,7 +241,8 @@ class _HomeState extends State<Home> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -392,7 +289,6 @@ class _HomeState extends State<Home> {
                     Container(
                       width: 70.w,
                       height: 28.h,
-
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           side: BorderSide(width: 1, color: Colors.white),
@@ -400,7 +296,8 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       child: Center(
-                        child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               'View all',
@@ -473,11 +370,13 @@ class _HomeState extends State<Home> {
                                             orginalprice: snapshot.data!
                                                 .docs[position]["orginal price"]
                                                 .toString(),
-                                            productDetails: snapshot.data!
-                                                .docs[position]["productDetails"]
+                                            productDetails: snapshot
+                                                .data!
+                                                .docs[position]
+                                                    ["productDetails"]
                                                 .toString(),
-                                            discount: snapshot
-                                                .data!.docs[position]["discount"]
+                                            discount: snapshot.data!
+                                                .docs[position]["discount"]
                                                 .toString(),
                                             id: snapshot
                                                 .data!.docs[position]['id']
@@ -488,7 +387,8 @@ class _HomeState extends State<Home> {
                               height: 241.h,
                               width: 170.w,
                               decoration: ShapeDecoration(shape: OvalBorder()),
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
                                     height: 178.h,
@@ -559,15 +459,23 @@ class _HomeState extends State<Home> {
                                   ),
                                   Row(
                                     children: [
-                                      RatingBar(
-                                        filledIcon: Icons.star,
-                                        size: 10,
-                                        emptyIcon: Icons.star_border,
-                                        onRatingChanged: (value) =>
-                                            debugPrint('$value'),
+                                      RatingBar.builder(
+                                        ignoreGestures: true,
+                                        tapOnlyMode:true ,
+                                        itemSize: 15,
                                         initialRating: double.parse(snapshot
-                                            .data!.docs[position]["rating"]),
-                                        maxRating: 5,
+                                            .data!.docs[position]['rating']),
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        onRatingUpdate: (rating) {
+                                          print(rating);
+                                        },
                                       ),
                                       SizedBox(
                                         width: 12.w,

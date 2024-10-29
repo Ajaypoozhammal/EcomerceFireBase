@@ -1,13 +1,7 @@
-import 'package:ecommeurcefb/Design/Signup.dart';
-import 'package:ecommeurcefb/Design/Start.dart';
-import 'package:ecommeurcefb/Design/onboard.dart';
-import 'package:ecommeurcefb/Design/payment.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'Design/BottomNavigation.dart';
-import 'Design/Home.dart';
 import 'Design/Splash.dart';
 import 'firebase_options.dart';
 
@@ -28,7 +22,8 @@ class MyApp extends StatelessWidget {
       designSize: const Size(430, 960),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: MaterialApp(debugShowCheckedModeBanner: false,
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           // This is the theme of your application.

@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:custom_rating_bar/custom_rating_bar.dart';
-import 'package:ecommeurcefb/Design/settings/Profile.dart';
-import 'package:ecommeurcefb/Design/productdetails.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'cart.dart';
 
 class Wishlist extends StatefulWidget {
   const Wishlist({super.key});
@@ -124,13 +121,21 @@ class _WishlistState extends State<Wishlist> {
                                 ),
                                 Row(
                                   children: [
-                                    RatingBar.readOnly(
-                                      filledIcon: Icons.star,
-                                      emptyIcon: Icons.star_border,
-                                      initialRating: double.parse(
-                                          snapshot.data!.docs[index]['rating']),
-                                      size: 15,
-                                      maxRating: 5,
+                                    RatingBar.builder(
+                                      itemSize: 15,
+                                      initialRating: double.parse(snapshot
+                                          .data!.docs[index]['rating']),
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
                                     ),
                                     SizedBox(
                                       width: 5.w,

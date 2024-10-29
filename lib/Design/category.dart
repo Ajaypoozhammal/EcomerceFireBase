@@ -1,6 +1,6 @@
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:ecommeurcefb/Design/productdetails.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -57,113 +57,125 @@ class _CategoryState extends State<Category> {
                                   id: widget.product[index]['id'].toString(),
                                 )));
                   },
-                  child: Container(
-                    height: 400.h,
-                    width: 150.w,
-                    decoration: ShapeDecoration(shape: OvalBorder()),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 180.h,
-                          width: 200.w,
-                          child: Image.network(
-                            widget.product[index]['image'][0].toString(),
-                            fit: BoxFit.cover,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10,right: 10),
+                    child: Container(
+                      height: 400.h,
+                      width: 150.w,
+                      decoration: ShapeDecoration(shape: OvalBorder()),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 180.h,
+                            width: 200.w,
+                            child: Image.network(
+                              widget.product[index]['image'][0].toString(),
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Text(
-                          widget.product[index]['name'].toString(),
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
+                          SizedBox(
+                            height: 5.h,
                           ),
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Text(
-                          maxLines: 2,
-                          widget.product[index]['productDetails'].toString(),
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w500,
+                          Text(
+                            widget.product[index]['name'].toString(),
+                            style: GoogleFonts.montserrat(
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Row(
-                            children: [
-                              Text(
-                                widget.product[index]['orginalprice']
-                                    .toString(),
-                                style: GoogleFonts.montserrat(
-                                  decoration: TextDecoration.lineThrough,
-                                  color: Color(0xFFA4A9B3),
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w400,
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Text(
+                            maxLines: 2,
+                            widget.product[index]['productDetails'].toString(),
+                            style: GoogleFonts.montserrat(
+                              color: Colors.black,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Row(
+                              children: [
+                                Text(
+                                  widget.product[index]['orginalprice']
+                                      .toString(),
+                                  style: GoogleFonts.montserrat(
+                                    decoration: TextDecoration.lineThrough,
+                                    color: Color(0xFFA4A9B3),
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                Text(
+                                  widget.product[index]['offerprice'].toString(),
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10.w,
+                                ),
+                                Text(
+                                  widget.product[index]['discount'].toString(),
+                                  style: GoogleFonts.montserrat(
+                                    color: Color(0xFFFE735C),
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Row(
+                            children: [
+                              RatingBar.builder(
+                                itemSize: 15,
+                                initialRating: double.parse(
+                                      widget.product[index]['raiting'].toString(),
+                                    ),
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemBuilder: (context, _) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                onRatingUpdate: (rating) {
+                                  print(rating);
+                                },
                               ),
+
                               SizedBox(
                                 width: 10.w,
                               ),
                               Text(
-                                widget.product[index]['offerprice'].toString(),
+                                widget.product[index]['raiting'].toString(),
                                 style: GoogleFonts.montserrat(
                                   color: Colors.black,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Text(
-                                widget.product[index]['discount'].toString(),
-                                style: GoogleFonts.montserrat(
-                                  color: Color(0xFFFE735C),
-                                  fontSize: 10.sp,
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
                               )
                             ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Row(
-                          children: [
-                            RatingBar.readOnly(
-                              filledIcon: Icons.star,
-                              emptyIcon: Icons.star_border,
-                              initialRating: double.parse(
-                                widget.product[index]['raiting'].toString(),
-                              ),
-                              size: 15,
-                              maxRating: 5,
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Text(
-                              widget.product[index]['raiting'].toString(),
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            )
-                          ],
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 );
