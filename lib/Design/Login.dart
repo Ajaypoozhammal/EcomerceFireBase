@@ -206,7 +206,7 @@ class _LoginState extends State<Login> {
                   height: 20.h,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 80),
+                  padding: const EdgeInsets.only(left: 110),
                   child: Row(
                     children: [
                       Container(
@@ -238,17 +238,14 @@ class _LoginState extends State<Login> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(360),
                               border: Border.all(color: Colors.red)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Icon(Icons.phone_android_outlined),
-                          ),
+                          child: Center(child: Icon(Icons.phone_android_outlined)),
                         ),
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 70, top: 20),
+                  padding: const EdgeInsets.only(left: 90, top: 20),
                   child: Row(
                     children: [
                       Text(

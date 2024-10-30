@@ -72,7 +72,7 @@ class _SignupState extends State<Signup> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 80, top: 10),
+                  padding: const EdgeInsets.only(right: 140, top: 10),
                   child: Text(
                     'Create an\n account\n',
                     style: GoogleFonts.montserrat(
@@ -322,10 +322,7 @@ class _SignupState extends State<Signup> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(360),
                               border: Border.all(color: Colors.red)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Icon(Icons.phone_android_outlined),
-                          ),
+                          child: Center(child: Icon(Icons.phone_android_outlined)),
                         ),
                       ),
                     ],

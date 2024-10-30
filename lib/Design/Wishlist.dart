@@ -14,6 +14,31 @@ class Wishlist extends StatefulWidget {
 }
 
 class _WishlistState extends State<Wishlist> {
+  void showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Delete Message?"),
+          content: Text("This is message will be permanently delete from this collection."),
+          actions: [
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();  // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text("Delete"),
+              onPressed: () {
+                Navigator.of(context).pop();  // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
@@ -154,11 +179,7 @@ class _WishlistState extends State<Wishlist> {
                                     ),
                                     GestureDetector(
                                         onTap: () {
-                                          firestore1
-                                              .doc(snapshot
-                                                  .data!.docs[index]["id"]
-                                                  .toString())
-                                              .delete();
+                                          showAlertDialog(context);
                                         },
                                         child: Icon(
                                           Icons.delete,

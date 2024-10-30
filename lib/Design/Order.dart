@@ -89,14 +89,7 @@ class _OrdersState extends State<Orders> {
                                         status: snapshot.data!.docs[position]
                                         ["status"].toString()
                                     ),));
-                                  //   Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (_) => OTK(
-                                  //         status: snapshot.data!.docs[position]["status"].toString()
-                                  //     ),
-                                  //   ),
-                                  // );
+
                                     },
                                     child: Container(
                                       height: 130.h,

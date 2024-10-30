@@ -1,11 +1,8 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommeurcefb/Design/settings/Profile.dart';
-import 'package:ecommeurcefb/Design/cart.dart';
 import 'package:ecommeurcefb/Design/category.dart';
 import 'package:ecommeurcefb/Design/productdetails.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

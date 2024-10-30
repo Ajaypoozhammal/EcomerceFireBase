@@ -12,8 +12,8 @@ class Cart extends StatefulWidget {
   @override
   State<Cart> createState() => _CartState();
 }
-
 class _CartState extends State<Cart> {
+
   @override
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
@@ -138,15 +138,6 @@ class _CartState extends State<Cart> {
                                         print(rating);
                                       },
                                     ),
-                                    // RatingBar.readOnly(
-                                    //   filledIcon: Icons.star,
-                                    //   emptyIcon: Icons.star_border,
-                                    //   initialRating: double.parse(
-                                    //     snapshot.data!.docs[index]["rating"],
-                                    //   ),
-                                    //   size: 15,
-                                    //   maxRating: 5,
-                                    // ),
                                     SizedBox(
                                       width: 15.w,
                                     ),
@@ -164,11 +155,36 @@ class _CartState extends State<Cart> {
                                     ),
                                     GestureDetector(
                                         onTap: () {
-                                          firestore1
-                                              .doc(snapshot
-                                                  .data!.docs[index]["id"]
-                                                  .toString())
-                                              .delete();
+                                         //showAlertDialog(context);
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text("Delete Message?"),
+                                                content: Text("This is message will be permanently delete from this collection."),
+                                                actions: [
+                                                  TextButton(
+                                                    child: Text("Cancel"),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();  // Close the dialog
+                                                    },
+                                                  ),
+                                                  TextButton(
+                                                    child: Text("Delete"),
+                                                    onPressed: () {
+                                                      firestore1
+                                                          .doc(snapshot
+                                                          .data!.docs[index]["id"]
+                                                          .toString())
+                                                          .delete();
+                                                       Navigator.of(context).pop();  // Close the dialog
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+
                                         },
                                         child: Icon(Icons.delete,color: Colors.red,))
                                   ],
@@ -189,5 +205,8 @@ class _CartState extends State<Cart> {
         ],
       ),
     );
+  }
+  void showAlertDialog(BuildContext context) {
+
   }
 }
