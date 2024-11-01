@@ -205,77 +205,72 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 110),
-                  child: Row(
-                    children: [
-                      Container(
+                Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 50.h,
+                      width: 50.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(360),
+                          border: Border.all(color: Colors.red)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: GestureDetector(
+                            onTap: () {
+                              signinwithgoogle();
+                            },
+                            child: Image.asset("assets/c.png")),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => Phone()));
+                      },
+                      child: Container(
                         height: 50.h,
                         width: 50.h,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(360),
                             border: Border.all(color: Colors.red)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: GestureDetector(
-                              onTap: () {
-                                signinwithgoogle();
-                              },
-                              child: Image.asset("assets/c.png")),
-                        ),
+                        child: Center(child: Icon(Icons.phone_android_outlined)),
                       ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => Phone()));
-                        },
-                        child: Container(
-                          height: 50.h,
-                          width: 50.h,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(360),
-                              border: Border.all(color: Colors.red)),
-                          child: Center(child: Icon(Icons.phone_android_outlined)),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 90, top: 20),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Create An Account',
+                SizedBox(height: 20.h,),
+                Row(mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Create An Account',
+                      style: GoogleFonts.montserrat(
+                        textStyle: TextStyle(
+                          color: Color(0xFF575757),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => Signup()));
+                      },
+                      child: Text(
+                        'Sign Up',
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
-                            color: Color(0xFF575757),
+                            color: Colors.red,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => Signup()));
-                        },
-                        child: Text(
-                          'Sign Up',
-                          style: GoogleFonts.montserrat(
-                            textStyle: TextStyle(
-                              color: Colors.red,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -289,7 +289,7 @@ class _SignupState extends State<Signup> {
                   height: 20.h,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 100),
+                  padding: const EdgeInsets.only(left: 120),
                   child: Row(
                     children: [
                       GestureDetector(
@@ -333,7 +333,7 @@ class _SignupState extends State<Signup> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                    left: 70,
+                    left: 90,
                   ),
                   child: Row(
                     children: [

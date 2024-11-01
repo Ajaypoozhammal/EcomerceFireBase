@@ -29,7 +29,7 @@ class _EditState extends State<Edit> {
 
   Future<void> getimage() async {
     final PickedFile =
-        await Picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+    await Picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
     setState(() {
       if (PickedFile != null) {
         image = File(PickedFile.path);
@@ -64,13 +64,13 @@ class _EditState extends State<Edit> {
                   CircleAvatar(
                       radius: 40.r,
                       child:
-                        image != null
-                            ? Image.file(
-                                image!.absolute,
-                                fit: BoxFit.cover,
-                              )
-                            : Center(child: SizedBox(),)
-                      ),
+                      image != null
+                          ? Image.file(
+                        image!.absolute,
+                        fit: BoxFit.cover,
+                      )
+                          : Center(child: SizedBox(),)
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 46, top: 50),
                     child: CircleAvatar(
@@ -97,7 +97,7 @@ class _EditState extends State<Edit> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 30),
                 child: TextFormField(
-                  controller: update,
+                    controller: update,
                     decoration: InputDecoration(
                         labelText: "Name",
                         border: OutlineInputBorder(
@@ -108,42 +108,42 @@ class _EditState extends State<Edit> {
             SizedBox(
               width: 20.w,
             ),
-            GestureDetector(onTap:()async{
-              final firestoreCollections=FirebaseFirestore.instance
-                  .collection('Users')
-                  .doc(auth.currentUser!.uid.toString());
-              DocumentSnapshot<Map<String, dynamic>> querySnapshot =
-              await firestoreCollections.get();
-              final id=DateTime.now().microsecondsSinceEpoch.toString();
-              firebase_storage.Reference ref = firebase_storage
-                  .FirebaseStorage.instance
-                  .ref('/foldername/' + id);
-              firebase_storage.UploadTask uploadTask =
-              ref.putFile(image!.absolute);
-              await Future.value(uploadTask).then(
-                    (value) async {
-                  var newurl = await ref.getDownloadURL();
-
-                  firestore
-                      .doc(querySnapshot['id'])
-                      .update({
-                    "name": update.text.toString(),
-                    "Profile": newurl.toString()
-                  }).then(
-                        (value) => {
-
-
-                      update.clear(),
-                      Navigator.pop(context),
-                      setState(() {
-                        image = null;
-                      })
-                    },
-                  );
-                },
-              );
-            },
-              child: GestureDetector(   onTap: () async {
+            // GestureDetector(onTap:()async{
+            //   final firestoreCollections=FirebaseFirestore.instance
+            //       .collection('Users')
+            //       .doc(auth.currentUser!.uid.toString());
+            //   DocumentSnapshot<Map<String, dynamic>> querySnapshot =
+            //   await firestoreCollections.get();
+            //   final id=DateTime.now().microsecondsSinceEpoch.toString();
+            //   firebase_storage.Reference ref = firebase_storage
+            //       .FirebaseStorage.instance
+            //       .ref('/foldername/' + id);
+            //   firebase_storage.UploadTask uploadTask =
+            //   ref.putFile(image!.absolute);
+            //   await Future.value(uploadTask).then(
+            //         (value) async {
+            //       var newurl = await ref.getDownloadURL();
+            //
+            //       firestore
+            //           .doc(querySnapshot['id'])
+            //           .update({
+            //         "name": update.text.toString(),
+            //         "Profile": newurl.toString()
+            //       }).then(
+            //             (value) => {
+            //
+            //
+            //           update.clear(),
+            //           Navigator.pop(context),
+            //           setState(() {
+            //             image = null;
+            //           })
+            //         },
+            //       );
+            //     },
+            //   );
+            // },
+               GestureDetector(   onTap: () async {
                 final firestoreCollections = FirebaseFirestore.instance
                     .collection('user')
                     .doc(auth.currentUser!.uid.toString());
@@ -151,7 +151,6 @@ class _EditState extends State<Edit> {
                 DocumentSnapshot<Map<String, dynamic>> querySnapshot =
                 await firestoreCollections.get();
                 setState(() {
-
                 });
                 final id =
                 DateTime.now().microsecondsSinceEpoch.toString();
@@ -197,7 +196,6 @@ class _EditState extends State<Edit> {
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
