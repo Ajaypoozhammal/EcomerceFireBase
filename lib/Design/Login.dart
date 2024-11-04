@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Toast msg.dart';
 import 'BottomNavigation.dart';
@@ -161,7 +162,9 @@ class _LoginState extends State<Login> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) => Bottomnavigation()))
+                                        builder: (_) => Bottomnavigation())),
+
+                        CheckLogin()
                               })
                           .onError((error, stackTrace) => ToastMessage()
                               .toastmessage(message: error.toString()));
@@ -278,5 +281,10 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+  void CheckLogin() async {
+    // Obtain shared preferences.
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("Token", true);
   }
 }
