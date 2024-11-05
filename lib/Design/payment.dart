@@ -7,6 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+import '../Toast msg.dart';
+import 'Wishlist.dart';
+
 class Payment extends StatefulWidget {
   final List<dynamic> images;
   final String name;
@@ -33,6 +36,9 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
+  int currentindex = 0;
+  bool favorite = false;
+  bool looding = false;
   FirebaseAuth auth = FirebaseAuth.instance;
   final firestorecollection = FirebaseFirestore.instance.collection('user');
   final date = DateTime.now().add(Duration(days: 7));
@@ -57,7 +63,7 @@ class _PaymentState extends State<Payment> {
       'id': widget.id.toString(),
       'date':
           '${date.day.toString()} ${DateFormat('MMM').format(date)} ${date.year.toString()}',
-      'status':'shipped',
+      'status': 'shipped',
       'name': widget.name.toString(),
       "discount": widget.discount.toString(),
       'rating': widget.rating.toString(),
@@ -114,6 +120,36 @@ class _PaymentState extends State<Payment> {
   }
 
   @override
+  void initState() {
+    checkfavorite();
+
+    super.initState();
+  }
+
+  Future<void> checkfavorite() async {
+    final firestoreCollection = FirebaseFirestore.instance
+        .collection('user')
+        .doc(auth.currentUser!.uid)
+        .collection('favorite');
+
+    QuerySnapshot querySnapshot = await firestoreCollection.get();
+
+    // Get data from docs and convert map to List
+
+    for (int i = 0; i < querySnapshot.docs.length; i++) {
+      if (querySnapshot.docs[i]['id'].toString() == widget.id.toString()) {
+        print("item found");
+        setState(() {
+          favorite = true;
+        });
+      } else {
+        print("item not found");
+      }
+    }
+
+    // print("hi"+querySnapshot.docs.map((e){});
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -122,13 +158,75 @@ class _PaymentState extends State<Payment> {
               Navigator.pop(context);
             },
             child: Icon(Icons.arrow_back_ios_new)),
-        actions: [Padding(
-          padding: const EdgeInsets.only(right: 20),
-          child: Icon((Icons.favorite_border)),
-        )],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+        child: GestureDetector(
+            onTap: () {
+              checkfavorite();
+              if (favorite == true) {
+                firestorecollection.doc(auth.currentUser!.uid.toString())
+                    .collection("favourite")
+                    .doc(widget.id.toString())
+                    .delete()
+                    .then(
+                      (value) {
+                    ToastMessage().toastmessage(
+                        message: 'Remove favourite');
+                    setState(() {
+                      favorite = false;
+                    });
+                  },
+                ).onError((Error, StackTrace) {
+                  ToastMessage()
+                      .toastmessage(message: Error.toString());
+                });
+              } else {
+                firestorecollection.doc(auth.currentUser!.uid.toString())
+                    .collection("favorite")
+                    .doc(widget.id)
+                    .set({
+                  'id': widget.id.toString(),
+                  'name': widget.name.toString(),
+                  "discount": widget.discount.toString(),
+                  'rating': widget.rating.toString(),
+                  'productDetails': widget.productDetails.toString(),
+                  'orginal price': widget.orginalprice.toString(),
+                  'offer price': widget.offerprice.toString(),
+                  'images': widget.images
+                }).then(
+                      (value) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: Duration(seconds: 3),
+                        behavior: SnackBarBehavior.floating,
+                        content: Text('Go to Wish list'),
+                        action: SnackBarAction(
+                          label: 'Wish List',
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => Wishlist()));
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+            child: favorite == true
+                ? Icon(
+              Icons.favorite,
+              color: Colors.red,
+            )
+                : Icon(Icons.favorite_border))
+          ),
+        ],
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 15,right: 15,top: 5),
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
         child: Column(
           children: [
             Row(
@@ -250,7 +348,8 @@ class _PaymentState extends State<Payment> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 30, top: 10),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     'Order Amounts',
@@ -376,8 +475,9 @@ class _PaymentState extends State<Payment> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 30,top: 20),
-              child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+              padding: const EdgeInsets.only(left: 30, top: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'EMI Available',
@@ -413,10 +513,11 @@ class _PaymentState extends State<Payment> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 30,left: 10),
+                    padding: const EdgeInsets.only(top: 30, left: 10),
                     child: Column(
                       children: [
                         Text(

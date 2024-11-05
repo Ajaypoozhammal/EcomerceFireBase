@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommeurcefb/Design/productdetails.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -20,18 +21,19 @@ class _WishlistState extends State<Wishlist> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Delete Message?"),
-          content: Text("This is message will be permanently delete from this collection."),
+          content: Text(
+              "This is message will be permanently delete from this collection."),
           actions: [
             TextButton(
               child: Text("Cancel"),
               onPressed: () {
-                Navigator.of(context).pop();  // Close the dialog
+                Navigator.of(context).pop(); // Close the dialog
               },
             ),
             TextButton(
               child: Text("Delete"),
               onPressed: () {
-                Navigator.of(context).pop();  // Close the dialog
+                Navigator.of(context).pop(); // Close the dialog
               },
             ),
           ],
@@ -39,6 +41,7 @@ class _WishlistState extends State<Wishlist> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
@@ -84,7 +87,19 @@ class _WishlistState extends State<Wishlist> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          // onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Productdetails()));},
+                          onTap: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (_) =>
+                                Productdetails(image:snapshot.data!.docs[index]["images"]
+                                , name: snapshot.data!.docs[index]["name"]
+                                    .toString(), raiting:  snapshot.data!.docs[index]["rating"]
+                                    .toString(), offerprice:snapshot.data!.docs[index]["offer price"]
+                                    .toString(), orginalprice:snapshot.data!.docs[index]["orginal price"]
+                                    .toString(), productDetails:snapshot.data!.docs[index]["productDetails"]
+                                    .toString(), discount: snapshot.data!.docs[index]["discount"]
+                                    .toString(), id: snapshot.data!.docs[index]["id"]
+                                    .toString(), )));
+                          },
                           child: Container(
                             height: 400.h,
                             width: 150.w,
@@ -133,7 +148,7 @@ class _WishlistState extends State<Wishlist> {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.only(right: 90, top: 3),
+                                  const EdgeInsets.only(right: 90, top: 3),
                                   child: Text(
                                     snapshot.data!.docs[index]["offer price"]
                                         .toString(),
@@ -154,10 +169,11 @@ class _WishlistState extends State<Wishlist> {
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
+                                      itemBuilder: (context, _) =>
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
                                       onRatingUpdate: (rating) {
                                         print(rating);
                                       },
@@ -179,7 +195,38 @@ class _WishlistState extends State<Wishlist> {
                                     ),
                                     GestureDetector(
                                         onTap: () {
-                                          showAlertDialog(context);
+                                          //showAlertDialog(context);
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text("Delete Message?"),
+                                                content: Text(
+                                                    "This is message will be permanently delete from this collection."),
+                                                actions: [
+                                                  TextButton(
+                                                    child: Text("Cancel"),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
+                                                    },
+                                                  ),
+                                                  TextButton(
+                                                    child: Text("Delete"),
+                                                    onPressed: () {
+                                                      firestore1
+                                                          .doc(snapshot.data!
+                                                          .docs[index]["id"]
+                                                          .toString())
+                                                          .delete();
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
                                         },
                                         child: Icon(
                                           Icons.delete,

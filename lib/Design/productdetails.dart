@@ -92,9 +92,11 @@ class _ProductdetailsState extends State<Productdetails> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right:20),
-            child: Icon(
-              Icons.shopping_cart_outlined,
-              color: Colors.black,
+            child: GestureDetector(onTap: (){Navigator.push(context,MaterialPageRoute(builder: (_)=>Cart()));},
+              child: Icon(
+                Icons.shopping_cart_outlined,
+                color: Colors.black,
+              ),
             ),
           )
         ],
@@ -119,7 +121,7 @@ class _ProductdetailsState extends State<Productdetails> {
                 initialPage: currentindex,
                 enableInfiniteScroll: true,
                 reverse: false,
-                autoPlay: false,
+                autoPlay: true,
                 onPageChanged: (index, c) {
                   setState(() {
                     currentindex = index;
@@ -203,11 +205,13 @@ class _ProductdetailsState extends State<Productdetails> {
                       checkfavorite();
                       if (favorite == true) {
                         FireStore.doc(auth.currentUser!.uid.toString())
-                            .collection("favorite")
+                            .collection("favourite")
                             .doc(widget.id.toString())
                             .delete()
                             .then(
                           (value) {
+                            ToastMessage().toastmessage(
+                                message: 'Remove favourite');
                             setState(() {
                               favorite = false;
                             });
@@ -256,9 +260,10 @@ class _ProductdetailsState extends State<Productdetails> {
                             Icons.favorite,
                             color: Colors.red,
                           )
-                        : Icon(Icons.favorite_border))
+                        : Icon(Icons.favorite_border,color: Colors.grey,))
               ],
-            ),SizedBox(height: 10.h,),
+            ),
+            SizedBox(height: 10.h,),
             Row(
               children: [
                 Text(

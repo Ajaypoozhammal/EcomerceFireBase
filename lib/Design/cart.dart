@@ -12,8 +12,8 @@ class Cart extends StatefulWidget {
   @override
   State<Cart> createState() => _CartState();
 }
-class _CartState extends State<Cart> {
 
+class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
@@ -31,7 +31,6 @@ class _CartState extends State<Cart> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Center(child: Text("Cart")),
-
       ),
       body: Column(
         children: [
@@ -60,12 +59,40 @@ class _CartState extends State<Cart> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          // onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>Productdetails()));},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => Productdetails(
+                                  image: snapshot.data!.docs[index]["images"],
+                                  name: snapshot.data!.docs[index]['name']
+                                      .toString(),
+                                  raiting: snapshot.data!.docs[index]["rating"]
+                                      .toString(),
+                                  offerprice: snapshot
+                                      .data!.docs[index]["offer price"]
+                                      .toString(),
+                                  orginalprice: snapshot
+                                      .data!.docs[index]["orginal price"]
+                                      .toString(),
+                                  productDetails: snapshot
+                                      .data!.docs[index]["productDetails"]
+                                      .toString(),
+                                  discount: snapshot
+                                      .data!.docs[index]["discount"]
+                                      .toString(),
+                                  id: snapshot.data!.docs[index]["id"]
+                                      .toString(),
+                                ),
+                              ),
+                            );
+                          },
                           child: Container(
                             height: 200.h,
                             width: 150.w,
                             decoration: ShapeDecoration(shape: OvalBorder()),
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   width: 170.w,
@@ -120,12 +147,12 @@ class _CartState extends State<Cart> {
                                 ),
                                 Row(
                                   children: [
-                                    RatingBar.builder(tapOnlyMode: false,
-                                ignoreGestures: true,
-
+                                    RatingBar.builder(
+                                      tapOnlyMode: false,
+                                      ignoreGestures: true,
                                       itemSize: 15,
-                                      initialRating: double.parse(snapshot
-                                          .data!.docs[index]['rating']),
+                                      initialRating: double.parse(
+                                          snapshot.data!.docs[index]['rating']),
                                       minRating: 1,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
@@ -155,38 +182,43 @@ class _CartState extends State<Cart> {
                                     ),
                                     GestureDetector(
                                         onTap: () {
-                                         //showAlertDialog(context);
+                                          //showAlertDialog(context);
                                           showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
                                               return AlertDialog(
                                                 title: Text("Delete Message?"),
-                                                content: Text("This is message will be permanently delete from this collection."),
+                                                content: Text(
+                                                    "This is message will be permanently delete from this collection."),
                                                 actions: [
                                                   TextButton(
                                                     child: Text("Cancel"),
                                                     onPressed: () {
-                                                      Navigator.of(context).pop();  // Close the dialog
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
                                                     },
                                                   ),
                                                   TextButton(
                                                     child: Text("Delete"),
                                                     onPressed: () {
                                                       firestore1
-                                                          .doc(snapshot
-                                                          .data!.docs[index]["id"]
-                                                          .toString())
+                                                          .doc(snapshot.data!
+                                                              .docs[index]["id"]
+                                                              .toString())
                                                           .delete();
-                                                       Navigator.of(context).pop();  // Close the dialog
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
                                                     },
                                                   ),
                                                 ],
                                               );
                                             },
                                           );
-
                                         },
-                                        child: Icon(Icons.delete,color: Colors.red,))
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ))
                                   ],
                                 )
                               ],
@@ -206,7 +238,6 @@ class _CartState extends State<Cart> {
       ),
     );
   }
-  void showAlertDialog(BuildContext context) {
 
-  }
+  void showAlertDialog(BuildContext context) {}
 }

@@ -193,7 +193,7 @@ class _HomeState extends State<Home> {
                       initialPage: currentIndex,
                       enableInfiniteScroll: true,
                       reverse: false,
-                      autoPlay: false,
+                      autoPlay: true,
                       onPageChanged: (index, c) {
                         setState(() {
                           currentIndex = index;

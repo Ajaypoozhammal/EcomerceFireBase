@@ -168,7 +168,6 @@ class _LoginState extends State<Login> {
                               })
                           .onError((error, stackTrace) => ToastMessage()
                               .toastmessage(message: error.toString()));
-                      ;
                     }
                   },
                   child: Container(
@@ -283,6 +282,7 @@ class _LoginState extends State<Login> {
     );
   }
   void CheckLogin() async {
+
     // Obtain shared preferences.
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("Token", true);
